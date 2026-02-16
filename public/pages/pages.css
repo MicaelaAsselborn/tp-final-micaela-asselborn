@@ -45,6 +45,16 @@ h2 {
 	text-align: center;
 }
 
+.id-holder {
+	display: flex;
+	justify-content: center;
+}
+
+h3 {
+	text-align: center;
+	margin: 0 5px;
+}
+
 fieldset {
 	border: 1px solid black;
 }

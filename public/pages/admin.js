@@ -5,7 +5,7 @@ function crearElementoLista(usuario) {
 
 	// Crea párrafo
 	const datosUsuario = document.createElement("p");
-	datosUsuario.textContent = `Usuario: ${usuario.username} | Email: ${usuario.email} | Rol: ${usuario.role}`;
+	datosUsuario.textContent = `USUARIO: ${usuario.username} | EMAIL: ${usuario.email} | ROL: ${usuario.role}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
@@ -40,7 +40,6 @@ async function listarUsuarios() {
 				"Content-Type": "application/json",
 			},
 		});
-		debugger;
 		if (!response.ok) {
 			throw new Error("Error al obtener los datos");
 		}
@@ -55,5 +54,47 @@ async function listarUsuarios() {
 		console.error("Error:", error);
 	}
 }
+
+function extraerUsernameYId(token) {
+	if (!token) return null;
+
+	try {
+		// Decodificar el payload del JWT (parte del medio)
+		var base64Url = token.split(".")[1];
+		var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+		var jsonPayload = decodeURIComponent(
+			window
+				.atob(base64)
+				.split("")
+				.map(function (c) {
+					return (
+						"%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
+					);
+				})
+				.join(""),
+		);
+
+		// Parsear el payload
+		var payload = JSON.parse(jsonPayload);
+
+		// Extraer username y id (adaptado a posibles nombres de propiedades)
+		return {
+			id: payload.id || null,
+			username: payload.username || null,
+		};
+	} catch (error) {
+		console.error("Error al decodificar token:", error);
+		return null;
+	}
+}
+
+// Obtener token y extraer datos
+const datosUsuario = extraerUsernameYId(token);
+
+const nombre = document.getElementById("adminName");
+nombre.innerText = datosUsuario.username;
+
+const id = document.getElementById("adminId");
+id.innerText = datosUsuario.id;
 
 document.addEventListener("DOMContentLoaded", listarUsuarios());
