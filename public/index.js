@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			localStorage.setItem("token", token);
 			const parsedToken = parseJwt(token);
 			if (parsedToken.role === "admin") {
-				window.location.href = "./pages/admin.html";
+				window.location.href = "./pages/adminPages/admin.html";
 			} else {
-				window.location.href = "./pages/vet.html";
+				window.location.href = "./pages/vetPages/vet.html";
 			}
 		}
 	});

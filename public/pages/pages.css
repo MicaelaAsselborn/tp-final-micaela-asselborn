@@ -2,6 +2,8 @@
 
 :root {
 	--aqua: rgb(61, 171, 134);
+	--accept: rgb(104, 158, 24);
+	--reject: rgb(184, 46, 46);
 }
 
 * {
@@ -38,7 +40,12 @@ footer p {
 	margin: 8px;
 }
 
-/* Apariencia personalizada */
+/* HOME */
+a {
+	text-decoration: none;
+	color: black;
+	font-size: 1rem;
+}
 
 h2 {
 	font-size: 1.8rem;
@@ -70,7 +77,7 @@ fieldset {
 }
 
 .editButton {
-	background-color: rgb(104, 158, 24);
+	background-color: var(--accept);
 	color: white;
 	font-size: 1rem;
 	border: 1px solid black;
@@ -78,9 +85,66 @@ fieldset {
 	margin-right: 5px;
 }
 .deleteButton {
-	background-color: rgb(184, 46, 46);
+	background-color: var(--reject);
 	color: white;
 	font-size: 1rem;
 	border: 1px solid black;
 	border-radius: 3px;
+}
+
+/* CREAR */
+
+form {
+	border-top: 1px solid black;
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+}
+
+form p {
+	text-align: center;
+}
+
+label {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+input,
+select {
+	font-size: 1.2rem;
+}
+select {
+	width: 249px;
+	text-align: center;
+}
+
+.input-holder {
+	display: flex;
+	flex-direction: column;
+	width: 35%;
+	align-items: self-end;
+}
+.inputBox {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding-top: 10px;
+	margin: auto;
+}
+
+form button {
+	margin: 1rem auto;
+	max-width: 30%;
+	font-size: 1.2rem;
+	padding: 10px;
+	background-color: var(--accept);
+	color: white;
+}
+
+.back {
+	margin: 0 auto 10px auto;
 }

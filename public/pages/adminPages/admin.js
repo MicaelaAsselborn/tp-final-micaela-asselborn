@@ -19,6 +19,9 @@ function crearElementoLista(usuario) {
 	const deleteButton = document.createElement("button");
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
+	deleteButton.addEventListener("click", async () => {
+		borrarUsuario(usuario.id);
+	});
 
 	// Ensambla la estructura
 	botonera.appendChild(editButton);
@@ -59,10 +62,9 @@ function extraerUsernameYId(token) {
 	if (!token) return null;
 
 	try {
-		// Decodificar el payload del JWT (parte del medio)
-		var base64Url = token.split(".")[1];
-		var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-		var jsonPayload = decodeURIComponent(
+		const base64Url = token.split(".")[1];
+		const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+		const jsonPayload = decodeURIComponent(
 			window
 				.atob(base64)
 				.split("")
@@ -75,9 +77,9 @@ function extraerUsernameYId(token) {
 		);
 
 		// Parsear el payload
-		var payload = JSON.parse(jsonPayload);
+		const payload = JSON.parse(jsonPayload);
 
-		// Extraer username y id (adaptado a posibles nombres de propiedades)
+		// Extraer username y id
 		return {
 			id: payload.id || null,
 			username: payload.username || null,
@@ -98,3 +100,15 @@ const id = document.getElementById("adminId");
 id.innerText = datosUsuario.id;
 
 document.addEventListener("DOMContentLoaded", listarUsuarios());
+
+// BORRAR USUARIO
+
+async function borrarUsuario(id) {
+	const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		method: "DELETE",
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	window.location.reload();
+}
