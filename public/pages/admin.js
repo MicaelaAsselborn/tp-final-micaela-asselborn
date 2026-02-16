@@ -1,50 +1,59 @@
-const token = localStorage.getItem(token);
+function crearElementoLista(usuario) {
+	// Crea div contenedor
+	const divContenedor = document.createElement("div");
+	divContenedor.className = "div-lista";
 
-function mostrarUsuarios() {
-	fetch("http://localhost:3000/api/pets/", {
-		method: "GET",
-		headers: {
-			Authorization: `Bearer ${token}`,
-			"Content-Type": "application/json",
-		},
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error("Error en la petición");
-			}
-			return response.json();
-		})
-		.then((data) => {
-			listarUsuarios(data);
-		})
-		.catch((error) => console.error("Error:", error));
+	// Crea párrafo
+	const datosUsuario = document.createElement("p");
+	datosUsuario.textContent = `Usuario: ${usuario.username} | Email: ${usuario.email} | Rol: ${usuario.role}`;
+
+	// Crea botonera
+	const botonera = document.createElement("div");
+
+	// Crea boton editar
+	const editButton = document.createElement("button");
+	editButton.className = "editButton";
+	editButton.textContent = "Editar";
+
+	// Crea boton eliminar
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "deleteButton";
+	deleteButton.textContent = "Borrar";
+
+	// Ensambla la estructura
+	botonera.appendChild(editButton);
+	botonera.appendChild(deleteButton);
+	divContenedor.appendChild(datosUsuario);
+	divContenedor.appendChild(botonera);
+
+	return divContenedor;
 }
 
-function listarUsuarios() {
-	const listBox = document.getElementById("list");
-	listBox.innerHTML = ""; //Limpiar lista existente
+const token = localStorage.getItem("token");
+async function listarUsuarios() {
+	const listBox = document.getElementById("users-list");
+	try {
+		const response = await fetch("http://localhost:8000/api/users/", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		debugger;
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+		const datos = await response.json();
+		console.log(datos);
 
-	datos.forEach((usuario) => {
-		const divContenedor = document.createElement("div");
-		divContenedor.className = "div-lista";
-		const p = document.createElement("p");
-		const button = document.createElement("button");
-	});
+		datos.forEach((usuario) => {
+			const datosUsuario = crearElementoLista(usuario);
+			listBox.appendChild(datosUsuario);
+		});
+	} catch (error) {
+		console.error("Error:", error);
+	}
 }
 
-// // Función para mostrar los datos en una lista HTML
-// function mostrarEnLista(datos) {
-//   const lista = document.getElementById('mi-lista');
-//   lista.innerHTML = ''; // Limpiar lista existente
-
-//   datos.forEach(item => {
-//     const li = document.createElement('li');
-//     li.textContent = item.nombre; // Ajusta según la estructura de tus datos
-//     // O si quieres mostrar más información:
-//     // li.textContent = `${item.id} - ${item.nombre} - ${item.email}`;
-//     lista.appendChild(li);
-//   });
-// }
-
-// // Llamar a la función cuando la página cargue
-// document.addEventListener('DOMContentLoaded', listarDatos);
+document.addEventListener("DOMContentLoaded", listarUsuarios());

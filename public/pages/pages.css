@@ -48,3 +48,29 @@ h2 {
 fieldset {
 	border: 1px solid black;
 }
+
+.div-lista {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.div-lista:not(:last-child) {
+	border-bottom: 1px solid black;
+}
+
+.editButton {
+	background-color: rgb(104, 158, 24);
+	color: white;
+	font-size: 1rem;
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-right: 5px;
+}
+.deleteButton {
+	background-color: rgb(184, 46, 46);
+	color: white;
+	font-size: 1rem;
+	border: 1px solid black;
+	border-radius: 3px;
+}

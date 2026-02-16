@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			// Guardar token y redirigir a la página principal
 			localStorage.setItem("token", token);
 			const parsedToken = parseJwt(token);
-			debugger;
 			if (parsedToken.role === "admin") {
 				window.location.href = "./pages/admin.html";
 			} else {
