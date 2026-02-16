@@ -1,0 +1,50 @@
+/* Apariencia estandar */
+
+:root {
+	--aqua: rgb(61, 171, 134);
+}
+
+* {
+	/* border: 1px solid black; */
+}
+
+header {
+	text-align: center;
+	background-color: var(--aqua);
+	color: white;
+}
+
+body {
+	margin: 0;
+	width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+footer {
+	background-color: var(--aqua);
+	margin-top: auto;
+	color: white;
+	text-align: center;
+}
+
+footer p {
+	margin: 8px;
+}
+
+/* Apariencia personalizada */
+
+h2 {
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+fieldset {
+	border: 1px solid black;
+}

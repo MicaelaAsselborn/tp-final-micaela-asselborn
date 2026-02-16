@@ -1,0 +1,92 @@
+:root {
+	--aqua: rgb(61, 171, 134);
+}
+
+* {
+	/* border: 1px solid black; */
+}
+
+header {
+	text-align: center;
+	background-color: var(--aqua);
+	color: white;
+}
+
+h1 {
+	padding: 10px;
+	margin-top: 0;
+	font-size: 2.5rem;
+}
+
+body {
+	margin: 0;
+	width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 70px;
+}
+
+.loggin {
+	width: 450px;
+	height: fit-content;
+	background-color: rgb(235, 228, 228);
+	border-radius: 5px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.data-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+h2 {
+	font-size: 2rem;
+	border-bottom: 1px solid black;
+	background-color: var(--aqua);
+	color: white;
+	margin: 0;
+	padding: 10px;
+}
+
+label {
+	font-size: 1.5rem;
+	margin: 0.5rem 0 0.3rem 0;
+	display: block;
+}
+
+input {
+	padding: 0.3rem 2rem;
+	border-radius: 5px;
+}
+
+.message {
+	color: rgb(108, 108, 108);
+}
+
+button {
+	width: 30%;
+	margin: 10px auto;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border-radius: 3px;
+}
+
+footer {
+	background-color: var(--aqua);
+	margin-top: auto;
+	color: white;
+	text-align: center;
+}
+
+footer p {
+	margin: 8px;
+}

@@ -1,6 +1,6 @@
 # Curl para Autenticación
 
-## Registrar a un nuevo usuario
+## Registrar a un nuevo usuario como admin
 
 ```bash
 curl -X POST http://localhost:8000/api/auth/register \
@@ -10,6 +10,19 @@ curl -X POST http://localhost:8000/api/auth/register \
 "email": "test@example.com",
 "password": "Test123!",
 "role": "admin"
+}'
+```
+
+## Registrar a un nuevo usuario como vet
+
+```bash
+curl -X POST http://localhost:8000/api/auth/register \
+ -H "Content-Type: application/json" \
+ -d '{
+"username": "testuser",
+"email": "test@example.com",
+"password": "Test123!",
+"role": "vet"
 }'
 ```
 
