@@ -1,0 +1,2 @@
+- añadir confirmación antes de borrar
+-

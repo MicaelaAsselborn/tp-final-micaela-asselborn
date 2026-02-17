@@ -15,7 +15,7 @@ function getInputData() {
 	return {
 		username: username.trim(),
 		email: email.trim(),
-		rol: rol.trim(),
+		role: rol,
 		password: password.trim(),
 	};
 }
@@ -29,7 +29,7 @@ async function crearUsuario() {
 		if (
 			!nuevoUsuario.username ||
 			!nuevoUsuario.email ||
-			!nuevoUsuario.rol ||
+			!nuevoUsuario.role ||
 			!nuevoUsuario.password
 		) {
 			alert("Por favor, completa todos los campos");
@@ -61,3 +61,47 @@ async function crearUsuario() {
 		console.error("Error:", error);
 	}
 }
+
+// Mostrar nombre e id de usuario logueado
+function extraerUsernameYId(token) {
+	if (!token) return null;
+
+	try {
+		const base64Url = token.split(".")[1];
+		const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+		const jsonPayload = decodeURIComponent(
+			window
+				.atob(base64)
+				.split("")
+				.map(function (c) {
+					return (
+						"%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
+					);
+				})
+				.join(""),
+		);
+
+		// Parsear el payload
+		const payload = JSON.parse(jsonPayload);
+
+		// Extraer username y id
+		return {
+			id: payload.id || null,
+			username: payload.username || null,
+		};
+	} catch (error) {
+		console.error("Error al decodificar token:", error);
+		return null;
+	}
+}
+
+// Obtener token y extraer datos
+const datosUsuario = extraerUsernameYId(token);
+
+const nombre = document.getElementById("adminName");
+nombre.innerText = datosUsuario.username;
+
+const id = document.getElementById("adminId");
+id.innerText = datosUsuario.id;
+
+document.addEventListener("DOMContentLoaded", listarUsuarios());

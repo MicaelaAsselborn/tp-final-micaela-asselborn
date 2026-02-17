@@ -58,6 +58,7 @@ async function listarUsuarios() {
 	}
 }
 
+// Mostrar nombre e id de usuario logueado
 function extraerUsernameYId(token) {
 	if (!token) return null;
 

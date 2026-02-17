@@ -96,12 +96,16 @@ fieldset {
 
 form {
 	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 	margin-top: 1rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	padding: 1rem;
+	max-width: 1200px;
+	width: 80%;
+	margin: auto;
 }
 
 form p {
@@ -146,5 +150,5 @@ form button {
 }
 
 .back {
-	margin: 0 auto 10px auto;
+	margin: 10px auto;
 }
