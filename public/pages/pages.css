@@ -52,6 +52,10 @@ h2 {
 	text-align: center;
 }
 
+.h2-editar {
+	font-size: 1.4rem;
+}
+
 .id-holder {
 	display: flex;
 	justify-content: center;

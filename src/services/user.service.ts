@@ -74,7 +74,7 @@ export const createUser = async (
 		username: user.username,
 		email: user.email,
 		password: user.password,
-		role: user.role || UserRole.CLIENT,
+		role: user.role || UserRole.VET,
 	});
 	return await newUser.save();
 };

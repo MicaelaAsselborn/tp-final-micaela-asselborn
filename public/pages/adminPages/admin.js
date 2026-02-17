@@ -5,7 +5,7 @@ function crearElementoLista(usuario) {
 
 	// Crea párrafo
 	const datosUsuario = document.createElement("p");
-	datosUsuario.textContent = `USUARIO: ${usuario.username} | EMAIL: ${usuario.email} | ROL: ${usuario.role}`;
+	datosUsuario.textContent = `ID: ${usuario.id} | USUARIO: ${usuario.username} | EMAIL: ${usuario.email} | ROL: ${usuario.role}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
@@ -13,7 +13,12 @@ function crearElementoLista(usuario) {
 	// Crea boton editar
 	const editButton = document.createElement("button");
 	editButton.className = "editButton";
+	editButton.setAttribute("userId", usuario.id);
 	editButton.textContent = "Editar";
+	editButton.addEventListener("click", function () {
+		const userId = this.getAttribute("userId");
+		window.location.href = `editarUsuario.html?id=${userId}`;
+	});
 
 	// Crea boton eliminar
 	const deleteButton = document.createElement("button");
@@ -59,7 +64,7 @@ async function listarUsuarios() {
 }
 
 // Mostrar nombre e id de usuario logueado
-function extraerUsernameYId(token) {
+function extraerUsername(token) {
 	if (!token) return null;
 
 	try {
@@ -82,7 +87,6 @@ function extraerUsernameYId(token) {
 
 		// Extraer username y id
 		return {
-			id: payload.id || null,
 			username: payload.username || null,
 		};
 	} catch (error) {
@@ -92,13 +96,10 @@ function extraerUsernameYId(token) {
 }
 
 // Obtener token y extraer datos
-const datosUsuario = extraerUsernameYId(token);
+const datosUsuario = extraerUsername(token);
 
 const nombre = document.getElementById("adminName");
 nombre.innerText = datosUsuario.username;
-
-const id = document.getElementById("adminId");
-id.innerText = datosUsuario.id;
 
 document.addEventListener("DOMContentLoaded", listarUsuarios());
 

@@ -21,7 +21,7 @@ curl -X GET http://localhost:8000/api/users/USER_ID \
  -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
-## Crear nuevo usuario (default role: client)
+## Crear nuevo usuario (default role: vet)
 
 ```bash
 curl -X POST http://localhost:8000/api/users \

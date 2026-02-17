@@ -1,9 +1,19 @@
-// CREAR USUARIO
+// EDITAR USUARIO
 const token = localStorage.getItem("token");
 const form = document.querySelector("form");
+
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	crearUsuario();
+	actualizarUsuario();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+	const urlParams = new URLSearchParams(window.location.search);
+	const userId = urlParams.get("id");
+	console.log(userId);
+
+	const userIdP = document.getElementById("userId");
+	userIdP.textContent = userId;
 });
 
 // Función para obtener los datos de los input
@@ -20,43 +30,33 @@ function getInputData() {
 	};
 }
 
-async function crearUsuario() {
+async function actualizarUsuario() {
 	try {
+		// Obtiene el id de la URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const id = urlParams.get("id");
+		if (!id) {
+			alert("No se encontró el ID de usuario en la URL");
+			return;
+		}
 		// Obtiene los datos del formulario
-		const nuevoUsuario = getInputData();
+		const usuarioActualizado = getInputData();
 
-		// Valida que los campos no estén vacíos
-		if (
-			!nuevoUsuario.username ||
-			!nuevoUsuario.email ||
-			!nuevoUsuario.role ||
-			!nuevoUsuario.password
-		) {
-			alert("Por favor, completa todos los campos");
-			return;
-		}
-
-		// Validar formato de email (opcional)
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (!emailRegex.test(nuevoUsuario.email)) {
-			alert("Por favor, ingresa un email válido");
-			return;
-		}
-		const response = await fetch("http://localhost:8000/api/users/", {
-			method: "POST",
+		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(nuevoUsuario),
+			body: JSON.stringify(usuarioActualizado),
 		});
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
 		}
 		const datos = await response.json();
-		console.log("Usuario creado:", datos);
+		console.log("Usuario actualizado:", datos);
 
-		alert("Usuario creado correctamente");
+		alert("Usuario actualizado correctamente");
 	} catch (error) {
 		console.error("Error:", error);
 	}
