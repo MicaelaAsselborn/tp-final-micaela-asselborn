@@ -1,2 +1,1 @@
-- añadir confirmación antes de borrar
--
+- Rehacer buscar usuario

@@ -57,6 +57,8 @@ async function crearUsuario() {
 		console.log("Usuario creado:", datos);
 
 		alert("Usuario creado correctamente");
+
+		window.location.href = "./admin.html";
 	} catch (error) {
 		console.error("Error:", error);
 	}

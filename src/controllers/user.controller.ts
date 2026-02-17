@@ -74,7 +74,7 @@ export const createUser = async (req: Request, res: Response) => {
 		const userRole =
 			role && Object.values(UserRole).includes(role)
 				? (role as UserRole)
-				: UserRole.CLIENT;
+				: UserRole.VET;
 
 		const user = await userService.createUser({
 			username,

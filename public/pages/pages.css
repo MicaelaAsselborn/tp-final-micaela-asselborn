@@ -94,6 +94,7 @@ fieldset {
 	font-size: 1rem;
 	border: 1px solid black;
 	border-radius: 3px;
+	width: fit-content;
 }
 
 /* CREAR */
@@ -155,4 +156,14 @@ form button {
 
 .back {
 	margin: 10px auto;
+}
+
+/* BUSCAR */
+
+.search {
+	margin-top: 1rem;
+}
+
+.botonera {
+	display: flex;
 }

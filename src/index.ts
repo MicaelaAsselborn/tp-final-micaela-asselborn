@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 app.use("/api/auth", authRouter); // Registro y login
 
 // Rutas PROTEGIDAS
-app.use("/api/users", userRouter); // CRUD de usuarios
+app.use("/api/users", authenticate, authorize(["admin"]), userRouter); // CRUD de usuarios
 app.use("/api/pets", authenticate, authorize(["vet"]), petRouter); // CRUD de mascotas
 app.use("/api/clinic", authenticate, authorize(["vet"]), clinicRouter); // CRUD de consultas
 

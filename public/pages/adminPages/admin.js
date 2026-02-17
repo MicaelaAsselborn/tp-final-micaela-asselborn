@@ -106,11 +106,30 @@ document.addEventListener("DOMContentLoaded", listarUsuarios());
 // BORRAR USUARIO
 
 async function borrarUsuario(id) {
-	const response = await fetch(`http://localhost:8000/api/users/${id}`, {
-		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
-	window.location.reload();
+	// Confirmación con el nombre del usuario
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar al usuario con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ Usuario ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
+	}
 }
