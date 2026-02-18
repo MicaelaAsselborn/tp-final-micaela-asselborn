@@ -29,6 +29,11 @@ main {
 	flex-direction: column;
 }
 
+.main {
+	max-width: 1000px;
+	margin: auto;
+}
+
 footer {
 	background-color: var(--aqua);
 	margin-top: auto;
@@ -68,11 +73,17 @@ h3 {
 
 fieldset {
 	border: 1px solid black;
-	width: 80%;
+	width: 1000px;
 	margin: auto;
 }
 
 .div-lista {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.div-lista-busqueda {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -98,6 +109,11 @@ fieldset {
 	border: 1px solid black;
 	border-radius: 3px;
 	width: fit-content;
+}
+
+#logoff {
+	align-self: end;
+	margin-top: 1rem;
 }
 
 /* CREAR */

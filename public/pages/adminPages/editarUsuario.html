@@ -10,28 +10,18 @@
 	<body>
 		<main>
 			<h2>Administrador: <span id="adminName"></span></h2>
-			<form action="submit">
+			<form action="submit" autocomplete="off">
 				<h2 class="h2-editar">
 					Editar usuario con ID: <span id="userId"></span>
 				</h2>
 				<div class="input-holder">
 					<div class="inputBox">
-						<label for="username">Usuario: </label>
-						<input type="text" id="username" />
+						<label for="username">Usuername: </label>
+						<input type="text" id="username" autocomplete="off" />
 					</div>
 					<div class="inputBox">
 						<label for="email">Email: </label>
 						<input type="email" id="email" />
-					</div>
-					<div class="inputBox">
-						<label for="rol">Rol: </label>
-						<select id="rol">
-							<option disabled selected>
-								Selecciona una opción
-							</option>
-							<option value="admin">administrador</option>
-							<option value="vet">veterinario</option>
-						</select>
 					</div>
 					<div class="inputBox">
 						<label for="password">Contraseña: </label>

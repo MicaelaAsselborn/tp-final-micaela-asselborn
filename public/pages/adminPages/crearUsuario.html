@@ -10,11 +10,11 @@
 	<body>
 		<main>
 			<h2>Administrador: <span id="adminName"></span></h2>
-			<form action="submit">
+			<form action="submit" autocomplete="off">
 				<h2>Crear usuario</h2>
 				<div class="input-holder">
 					<div class="inputBox">
-						<label for="username">Usuario: </label>
+						<label for="username">Username: </label>
 						<input type="text" id="username" />
 					</div>
 					<div class="inputBox">
@@ -24,6 +24,9 @@
 					<div class="inputBox">
 						<label for="rol">Rol: </label>
 						<select id="rol">
+							<option disabled selected>
+								Selecciona una opción
+							</option>
 							<option value="admin">administrador</option>
 							<option value="vet">veterinario</option>
 						</select>

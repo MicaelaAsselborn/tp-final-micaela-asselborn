@@ -20,12 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
 function getInputData() {
 	const username = document.getElementById("username").value;
 	const email = document.getElementById("email").value;
-	const rol = document.getElementById("rol").value;
 	const password = document.getElementById("password").value;
 	return {
 		username: username.trim(),
 		email: email.trim(),
-		role: rol,
 		password: password.trim(),
 	};
 }

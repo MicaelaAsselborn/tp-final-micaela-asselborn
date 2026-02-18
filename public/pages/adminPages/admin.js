@@ -1,3 +1,26 @@
+const token = localStorage.getItem("token");
+function parseJwt(token) {
+	var base64Url = token.split(".")[1];
+	var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+	var jsonPayload = decodeURIComponent(
+		window
+			.atob(base64)
+			.split("")
+			.map(function (c) {
+				return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+			})
+			.join(""),
+	);
+
+	return JSON.parse(jsonPayload);
+}
+
+const parsedToken = parseJwt(token);
+if (parsedToken.role !== "admin") {
+	// Hacer una pagina de no autorizado
+	logOff();
+}
+
 function crearElementoLista(usuario) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
@@ -37,7 +60,6 @@ function crearElementoLista(usuario) {
 	return divContenedor;
 }
 
-const token = localStorage.getItem("token");
 async function listarUsuarios() {
 	const listBox = document.getElementById("users-list");
 	try {
@@ -64,7 +86,7 @@ async function listarUsuarios() {
 }
 
 // Mostrar nombre e id de usuario logueado
-function extraerUsername(token) {
+function extraerUsernameYId(token) {
 	if (!token) return null;
 
 	try {
@@ -88,6 +110,7 @@ function extraerUsername(token) {
 		// Extraer username y id
 		return {
 			username: payload.username || null,
+			id: payload.id || null,
 		};
 	} catch (error) {
 		console.error("Error al decodificar token:", error);
@@ -96,7 +119,7 @@ function extraerUsername(token) {
 }
 
 // Obtener token y extraer datos
-const datosUsuario = extraerUsername(token);
+const datosUsuario = extraerUsernameYId(token);
 
 const nombre = document.getElementById("adminName");
 nombre.innerText = datosUsuario.username;
@@ -104,7 +127,6 @@ nombre.innerText = datosUsuario.username;
 document.addEventListener("DOMContentLoaded", listarUsuarios());
 
 // BORRAR USUARIO
-
 async function borrarUsuario(id) {
 	// Confirmación con el nombre del usuario
 	const confirmacion = confirm(
@@ -114,6 +136,11 @@ async function borrarUsuario(id) {
 	if (!confirmacion) return;
 
 	try {
+		if (id === datosUsuario.id) {
+			alert("❌ No puedes eliminarte a ti mismo");
+			return;
+		}
+
 		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
 			method: "DELETE",
 			headers: {
@@ -132,4 +159,9 @@ async function borrarUsuario(id) {
 		console.error("Error:", error);
 		alert(`❌ Error: ${error.message}`);
 	}
+}
+
+function logOff() {
+	localStorage.removeItem("token");
+	window.location.href = "../../index.html";
 }

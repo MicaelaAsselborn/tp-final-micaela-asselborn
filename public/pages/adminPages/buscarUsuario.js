@@ -8,7 +8,7 @@ form.addEventListener("submit", function (e) {
 function crearElementoUsuario(usuario) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
-	divContenedor.className = "div-lista";
+	divContenedor.className = "div-lista-busqueda";
 
 	// Crea párrafo
 	const datosUsuario = document.createElement("p");
@@ -180,3 +180,9 @@ function extraerUsername(token) {
 		return null;
 	}
 }
+
+// Obtener token y extraer datos
+const datosUsuario = extraerUsername(token);
+
+const nombre = document.getElementById("adminName");
+nombre.innerText = datosUsuario.username;
