@@ -3,52 +3,46 @@ const token = localStorage.getItem("token");
 const form = document.querySelector("form");
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	crearUsuario();
+	crearMascota();
 });
 
 // Función para obtener los datos de los input
 function getInputData() {
-	const username = document.getElementById("username").value;
-	const email = document.getElementById("email").value;
-	const rol = document.getElementById("rol").value;
-	const password = document.getElementById("password").value;
+	const name = document.getElementById("name").value;
+	const specie = document.getElementById("specie").value;
+	const ownerId = document.getElementById("ownerId").value;
+	const vetId = document.getElementById("vetId").value;
 	return {
-		username: username.trim(),
-		email: email.trim(),
-		role: rol,
-		password: password.trim(),
+		name: name.trim(),
+		specie: specie,
+		ownerId: ownerId.trim(),
+		vetId: vetId.trim(),
 	};
 }
 
-async function crearUsuario() {
+async function crearMascota() {
 	try {
 		// Obtiene los datos del formulario
-		const nuevoUsuario = getInputData();
+		const nuevaMascota = getInputData();
 
 		// Valida que los campos no estén vacíos
 		if (
-			!nuevoUsuario.username ||
-			!nuevoUsuario.email ||
-			!nuevoUsuario.role ||
-			!nuevoUsuario.password
+			!nuevMascota.name ||
+			!nuevaMascota.specie ||
+			!nuevaMascota.ownerId ||
+			!nuevaMascota.vetId
 		) {
 			alert("Por favor, completa todos los campos");
 			return;
 		}
 
-		// Validar formato de email (opcional)
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (!emailRegex.test(nuevoUsuario.email)) {
-			alert("Por favor, ingresa un email válido");
-			return;
-		}
-		const response = await fetch("http://localhost:8000/api/users/", {
+		const response = await fetch("http://localhost:8000/api/pets/", {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(nuevoUsuario),
+			body: JSON.stringify(nuevaMascota),
 		});
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
@@ -57,7 +51,7 @@ async function crearUsuario() {
 
 		alert("Usuario creado correctamente");
 
-		window.location.href = "./admin.html";
+		window.location.href = "../vet.html";
 	} catch (error) {
 		console.error("Error:", error);
 	}
@@ -98,5 +92,5 @@ function extraerUsername(token) {
 // Obtener token y extraer datos
 const datosUsuario = extraerUsername(token);
 
-const nombre = document.getElementById("adminName");
+const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

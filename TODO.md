@@ -1,1 +1,2 @@
 - Decidir si añadir o no registro
+- Hacer que ID del veterinario que crea la mascota se envie automaticamente

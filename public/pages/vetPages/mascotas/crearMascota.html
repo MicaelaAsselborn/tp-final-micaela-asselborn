@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../../pages.css" />
+		<title>Veterinaria Patitas Felices</title>
+		<header><h1>Veterinaria Patitas Felices 🐾</h1></header>
+	</head>
+	<body>
+		<main>
+			<h2>Veterinario: <span id="vetName"></span></h2>
+			<form action="submit" autocomplete="off">
+				<h2>Crear mascota</h2>
+				<div class="input-holder">
+					<div class="inputBox">
+						<label for="name">Nombre: </label>
+						<input type="text" id="name" />
+					</div>
+					<div class="inputBox">
+						<label for="specie">Especie: </label>
+						<select id="specie">
+							<option disabled selected>Elige una opción</option>
+							<option value="perro">perro</option>
+							<option value="gato">gato</option>
+
+							<option value="hamster">hamster</option>
+							<option value="ratón">ratón</option>
+							<option value="conejo">conejo</option>
+							<option value="ave">ave</option>
+							<option value="lagarto">lagarto</option>
+							<option value="tortuga">tortuga</option>
+							<option value="otro">otro</option>
+						</select>
+					</div>
+					<div class="inputBox">
+						<label for="ownerId">ID dueño: </label>
+						<input type="text" id="ownerId" />
+					</div>
+					<div class="inputBox">
+						<label for="vetId">ID veterinario: </label>
+						<input type="text" id="vetId" />
+					</div>
+				</div>
+				<p id="error-message"></p>
+				<button>Crear mascota</button>
+			</form>
+			<button class="back"><a href="../vet.html">Volver</a></button>
+		</main>
+		<footer>
+			<p>Trabajo práctico final de Desarrollo Web BackEnd - UTN</p>
+			<p>Micaela Asselborn</p>
+			<p>2026</p>
+		</footer>
+		<script src="crearMascota.js"></script>
+	</body>
+</html>
