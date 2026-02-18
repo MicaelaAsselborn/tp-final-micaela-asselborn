@@ -4,8 +4,7 @@ import * as clinicService from "../services/clinic.service";
 // findAllConsults
 export const findAllConsults = async (req: Request, res: Response) => {
 	try {
-		const vetId = req.user!.id;
-		const consults = await clinicService.findAllConsults(vetId);
+		const consults = await clinicService.findAllConsults();
 
 		if (!consults) {
 			res.status(404).json({ error: "No se encontraron consultas" });

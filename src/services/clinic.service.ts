@@ -1,8 +1,8 @@
 import { ClinicData, Consult } from "../models/clinic.model";
 
 // Encontrar todas las consultas de un veterinario
-export const findAllConsults = async (vetId: string): Promise<ClinicData[] | null> => {
-	const consults = await Consult.find({ vetId }).lean();
+export const findAllConsults = async (): Promise<ClinicData[] | null> => {
+	const consults = await Consult.find().lean();
 
 	if (!consults) return null;
 

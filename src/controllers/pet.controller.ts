@@ -4,8 +4,7 @@ import * as petService from "../services/pet.service";
 // findAllPets
 export const findAllPets = async (req: Request, res: Response) => {
 	try {
-		const vetId = req.user!.id;
-		const pets = await petService.findAllPets(vetId);
+		const pets = await petService.findAllPets();
 		if (!pets) {
 			return res
 				.status(404)
@@ -26,13 +25,6 @@ export const findPetById = async (req: Request, res: Response) => {
 		const pet = await petService.findPetById(id);
 		if (!pet) {
 			return res.status(404).json({ error: "Mascota no encontrada" });
-		}
-		if (pet.vetId !== req.user!.id) {
-			return res
-				.status(403)
-				.json({
-					error: "Acceso denegado: mascota no pertenece al veterinario",
-				});
 		}
 		return res.status(200).json(pet);
 	} catch (error) {
@@ -72,7 +64,11 @@ export const updatePet = async (req: Request, res: Response) => {
 			return res.status(404).json({ error: "Mascota no encontrada" });
 		}
 		if (existingPet.vetId !== req.user!.id) {
-			return res.status(403).json({ error: "Acceso denegado: mascota no pertenece al veterinario" });
+			return res
+				.status(403)
+				.json({
+					error: "Acceso denegado: mascota no pertenece al veterinario",
+				});
 		}
 
 		const updatedPet = await petService.updatePet(id, updates);

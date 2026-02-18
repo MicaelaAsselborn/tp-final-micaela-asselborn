@@ -74,7 +74,7 @@ h3 {
 fieldset {
 	border: 1px solid black;
 	width: 1000px;
-	margin: auto;
+	margin: 1rem auto;
 }
 
 .div-lista {
@@ -111,7 +111,7 @@ fieldset {
 	width: fit-content;
 }
 
-#logoff {
+.logoff {
 	align-self: end;
 	margin-top: 1rem;
 }

@@ -1,9 +1,9 @@
 import { Pet, PetData } from "../models/pets.model";
 import { PetSpecies } from "../types/pet";
 
-// Encontrar todas las mascotas de un veterinario
-export const findAllPets = async (vetId: string): Promise<PetData[] | null> => {
-	const pets = await Pet.find({ vetId }).lean();
+// Encontrar todas las mascotas
+export const findAllPets = async (): Promise<PetData[] | null> => {
+	const pets = await Pet.find().lean();
 	if (!pets) return null;
 
 	return pets.map((pet) => ({
