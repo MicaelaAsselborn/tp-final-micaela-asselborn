@@ -17,8 +17,7 @@ function parseJwt(token) {
 
 const parsedToken = parseJwt(token);
 if (parsedToken.role !== "vet") {
-	// Hacer una pagina de no autorizado
-	logOff();
+	window.location.href = "../unauthorized.html";
 }
 
 function crearElementoLista(mascota) {

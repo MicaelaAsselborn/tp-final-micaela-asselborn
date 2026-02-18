@@ -1,2 +1,1 @@
 - Decidir si añadir o no registro
-- Hacer pagina de no autorizado
