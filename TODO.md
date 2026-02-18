@@ -1,4 +1,6 @@
 - Decidir si añadir o no registro
 - Hacer que ID del veterinario que crea la mascota se envie automaticamente
 - Pasar las funciones que se repiten a un js central e importarlas donde sea necesario
-- Limpiar los campos de los input tras editar
+- Agregar los datos de la entidad a editar en la pagina de edicion
+- combinar las paginas de home y busqueda, para que puedas buscar desde ahi
+- construir mvc de clientes

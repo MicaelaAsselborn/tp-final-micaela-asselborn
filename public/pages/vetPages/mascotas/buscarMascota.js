@@ -2,17 +2,17 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	listarUsuario();
+	listarMascota();
 });
 
-function crearElementoUsuario(usuario) {
+function crearElementoListaMascotas(mascota) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
 	divContenedor.className = "div-lista-busqueda";
 
 	// Crea párrafo
-	const datosUsuario = document.createElement("p");
-	datosUsuario.textContent = `ID: ${usuario.id} | USUARIO: ${usuario.username} | EMAIL: ${usuario.email} | ROL: ${usuario.role}`;
+	const datosMascota = document.createElement("p");
+	datosMascota.textContent = `ID: ${mascota.id} | NOMBRE: ${mascota.name} | ESPECIE: ${mascota.species} | DUEÑO: ${mascota.ownerId}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
@@ -21,11 +21,11 @@ function crearElementoUsuario(usuario) {
 	// Crea boton editar
 	const editButton = document.createElement("button");
 	editButton.className = "editButton";
-	editButton.setAttribute("userId", usuario.id);
+	editButton.setAttribute("petId", mascota.id);
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
-		const userId = this.getAttribute("userId");
-		window.location.href = `editarUsuario.html?id=${userId}`;
+		const petId = this.getAttribute("petId");
+		window.location.href = `./mascotas/editarMascota.html?id=${petId}`;
 	});
 
 	// Crea boton eliminar
@@ -33,77 +33,62 @@ function crearElementoUsuario(usuario) {
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
 	deleteButton.addEventListener("click", async () => {
-		borrarUsuario(usuario.id);
+		borrarMascota(mascota.id);
 	});
 
 	// Ensambla la estructura
 	botonera.appendChild(editButton);
 	botonera.appendChild(deleteButton);
-	divContenedor.appendChild(datosUsuario);
+	divContenedor.appendChild(datosMascota);
 	divContenedor.appendChild(botonera);
 
 	return divContenedor;
 }
+
 const token = localStorage.getItem("token");
 
-async function listarUsuario() {
+async function listarMascota() {
 	const listBox = document.getElementById("findings");
 	const input = document.getElementById("search").value.trim();
-
-	// Validar que el input no esté vacío
-	if (!input) {
-		listBox.innerHTML = "<p>Por favor, ingresa un término de búsqueda</p>";
-		return;
-	}
-
-	listBox.innerHTML = "<p>Cargando...</p>"; // Indicador de carga
-
 	try {
-		let response = await fetch(`http://localhost:8000/api/users/`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
+		const response = await fetch(
+			`http://localhost:8000/api/pets/${input}`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
 			},
-		});
-
-		if (!response.ok) {
-			throw new Error("Error al obtener los usuarios");
-		}
-
-		const todosLosUsuarios = await response.json();
-
-		// Filtra SOLO el usuario que coincida EXACTAMENTE con el input
-		const usuarioEncontrado = todosLosUsuarios.find(
-			(usuario) => usuario.username.toLowerCase() === input.toLowerCase(),
 		);
 
 		listBox.innerHTML = ""; // Limpiar
 
-		if (usuarioEncontrado) {
-			const datosUsuario = crearElementoUsuario(usuarioEncontrado);
-			listBox.appendChild(datosUsuario);
-		} else {
-			listBox.innerHTML = `<p>No se encontró el usuario "${input}"</p>`;
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+		const mascotaEncontrada = await response.json();
+
+		if (mascotaEncontrada) {
+			const datosMascota = crearElementoListaMascotas(mascotaEncontrada);
+			listBox.appendChild(datosMascota);
 		}
 	} catch (error) {
-		listBox.innerHTML = `<p class="error">${error.message}</p>`;
-		console.error("Error detallado:", error);
+		console.error("Error:", error);
 	}
 }
 
-// BORRAR USUARIO
-
-async function borrarUsuario(id) {
-	// Confirmación con el nombre del usuario
+// BORRAR MASCOTA
+async function borrarMascota(id) {
+	// Confirmación con el nombre de la mascota
 	const confirmacion = confirm(
-		`¿Estás seguro de que quieres eliminar al usuario con ID ${id}?\nEsta acción no se puede deshacer.`,
+		`¿Estás seguro de que quieres eliminar la mascota con ID ${id}?\nEsta acción no se puede deshacer.`,
 	);
 
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -115,7 +100,7 @@ async function borrarUsuario(id) {
 			throw new Error(error.message || "Error al eliminar");
 		}
 
-		alert(`✅ Usuario ${id} eliminado correctamente`);
+		alert(`✅ Mascota con ${id} eliminado correctamente`);
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);
@@ -158,5 +143,5 @@ function extraerUsername(token) {
 // Obtener token y extraer datos
 const datosUsuario = extraerUsername(token);
 
-const nombre = document.getElementById("adminName");
+const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

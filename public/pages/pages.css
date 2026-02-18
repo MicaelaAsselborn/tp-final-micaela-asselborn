@@ -87,7 +87,7 @@ fieldset {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	width: 800px;
+	width: 1000px;
 }
 
 .div-lista:not(:last-child) {

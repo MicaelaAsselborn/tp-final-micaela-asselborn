@@ -20,7 +20,7 @@ if (parsedToken.role !== "vet") {
 	window.location.href = "../unauthorized.html";
 }
 
-function crearElementoLista(mascota) {
+function crearElementoListaMascotas(mascota) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
 	divContenedor.className = "div-lista";
@@ -76,7 +76,7 @@ async function listarMascotas() {
 		console.log(datos);
 
 		datos.forEach((mascota) => {
-			const datosMascota = crearElementoLista(mascota);
+			const datosMascota = crearElementoListaMascotas(mascota);
 			listBox.appendChild(datosMascota);
 		});
 	} catch (error) {
