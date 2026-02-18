@@ -68,12 +68,15 @@ h3 {
 
 fieldset {
 	border: 1px solid black;
+	width: 80%;
+	margin: auto;
 }
 
 .div-lista {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	width: 800px;
 }
 
 .div-lista:not(:last-child) {
@@ -166,4 +169,10 @@ form button {
 
 .botonera {
 	display: flex;
+	justify-content: space-between;
+	width: fit-content;
+}
+
+.botonera button {
+	max-width: 50%;
 }
