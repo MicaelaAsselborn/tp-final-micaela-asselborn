@@ -1,2 +1,4 @@
 - Decidir si añadir o no registro
 - Hacer que ID del veterinario que crea la mascota se envie automaticamente
+- Pasar las funciones que se repiten a un js central e importarlas donde sea necesario
+- Limpiar los campos de los input tras editar

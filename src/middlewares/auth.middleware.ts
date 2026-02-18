@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { JwtPayload } from '../types/auth';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { JwtPayload } from "../types/auth";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
@@ -10,23 +10,25 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
  * Verifica que el token sea válido y lo almacena en req.user
  */
 export const authenticate = (
-  req: Request,
-  res: Response,
-  next: NextFunction
+	req: Request,
+	res: Response,
+	next: NextFunction,
 ) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+	const token = req.headers.authorization?.split(" ")[1]; // Bearer <token>
 
-  if (!token) {
-    return res.status(401).json({ message: 'No se proveyó el token' });
-  }
+	if (!token) {
+		return res.status(401).json({ message: "No se proveyó el token" });
+	}
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Token inválido o expirado' });
-    }
-    req.user = decoded as JwtPayload;
-    next();
-  });
+	jwt.verify(token, JWT_SECRET, (err, decoded) => {
+		if (err) {
+			return res
+				.status(403)
+				.json({ message: "Token inválido o expirado" });
+		}
+		req.user = decoded as JwtPayload;
+		next();
+	});
 };
 
 /**
@@ -34,11 +36,11 @@ export const authenticate = (
  *
  * Verifica que el usuario tenga uno de los roles permitidos
  */
-export const authorize = (roles: Array<'client' | 'vet' | 'admin'>) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Acceso denegado' });
-    }
-    next();
-  };
+export const authorize = (roles: Array<"vet" | "admin">) => {
+	return (req: Request, res: Response, next: NextFunction) => {
+		if (!req.user || !roles.includes(req.user.role)) {
+			return res.status(403).json({ message: "Acceso denegado" });
+		}
+		next();
+	};
 };

@@ -4,7 +4,7 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	actualizarUsuario();
+	actualizarMascota();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -18,42 +18,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Función para obtener los datos de los input
 function getInputData() {
-	const username = document.getElementById("username").value;
-	const email = document.getElementById("email").value;
-	const password = document.getElementById("password").value;
+	const name = document.getElementById("name").value;
+	const specie = document.getElementById("specie").value;
+	const ownerId = document.getElementById("ownerId").value;
+	const vetId = document.getElementById("vetId").value;
 	return {
-		username: username.trim(),
-		email: email.trim(),
-		password: password.trim(),
+		name: name.trim(),
+		species: specie,
+		ownerId: ownerId.trim(),
+		vetId: vetId.trim(),
 	};
 }
 
-async function actualizarUsuario() {
+async function actualizarMascota() {
 	try {
 		// Obtiene el id de la URL
 		const urlParams = new URLSearchParams(window.location.search);
 		const id = urlParams.get("id");
 		if (!id) {
-			alert("No se encontró el ID de usuario en la URL");
+			alert("No se encontró el ID de la mascota en la URL");
 			return;
 		}
 		// Obtiene los datos del formulario
-		const usuarioActualizado = getInputData();
+		const masctotaActualizada = getInputData();
 
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(usuarioActualizado),
+			body: JSON.stringify(masctotaActualizada),
 		});
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
 		}
 		const datos = await response.json();
 
-		alert("Usuario actualizado correctamente");
+		alert("Mascota actualizada correctamente");
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);
@@ -95,5 +97,5 @@ function extraerUsername(token) {
 // Obtener token y extraer datos
 const datosUsuario = extraerUsername(token);
 
-const nombre = document.getElementById("adminName");
+const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

@@ -39,7 +39,7 @@ function crearElementoLista(mascota) {
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
 		const petId = this.getAttribute("petId");
-		window.location.href = `editarMascota.html?id=${petId}`;
+		window.location.href = `./mascotas/editarMascota.html?id=${petId}`;
 	});
 
 	// Crea boton eliminar
@@ -125,7 +125,7 @@ nombre.innerText = datosUsuario.username;
 
 document.addEventListener("DOMContentLoaded", listarMascotas());
 
-// BORRAR USUARIO
+// BORRAR MASCOTA
 async function borrarMascota(id) {
 	// Confirmación con el nombre de la mascota
 	const confirmacion = confirm(
@@ -147,7 +147,7 @@ async function borrarMascota(id) {
 			throw new Error(error.message || "Error al eliminar");
 		}
 
-		alert(`✅ Mascota ${id} eliminado correctamente`);
+		alert(`✅ Mascota con ${id} eliminado correctamente`);
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);

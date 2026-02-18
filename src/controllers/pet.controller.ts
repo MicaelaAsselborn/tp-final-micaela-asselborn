@@ -63,13 +63,6 @@ export const updatePet = async (req: Request, res: Response) => {
 		if (!existingPet) {
 			return res.status(404).json({ error: "Mascota no encontrada" });
 		}
-		if (existingPet.vetId !== req.user!.id) {
-			return res
-				.status(403)
-				.json({
-					error: "Acceso denegado: mascota no pertenece al veterinario",
-				});
-		}
 
 		const updatedPet = await petService.updatePet(id, updates);
 		if (!updatedPet) {
