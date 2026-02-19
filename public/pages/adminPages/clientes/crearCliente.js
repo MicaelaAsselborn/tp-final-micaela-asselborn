@@ -3,61 +3,54 @@ const token = localStorage.getItem("token");
 const form = document.querySelector("form");
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	crearUsuario();
+	crearCliente();
 });
 
 // Función para obtener los datos de los input
 function getInputData() {
-	const username = document.getElementById("username").value;
+	const name = document.getElementById("name").value;
 	const email = document.getElementById("email").value;
-	const rol = document.getElementById("rol").value;
-	const password = document.getElementById("password").value;
+	const phone = document.getElementById("phone").value;
 	return {
-		username: username.trim(),
+		name: name.trim(),
 		email: email.trim(),
-		role: rol,
-		password: password.trim(),
+		phone: phone.trim(),
 	};
 }
 
-async function crearUsuario() {
+async function crearCliente() {
 	try {
 		// Obtiene los datos del formulario
-		const nuevoUsuario = getInputData();
+		const nuevoCliente = getInputData();
 
 		// Valida que los campos no estén vacíos
-		if (
-			!nuevoUsuario.username ||
-			!nuevoUsuario.email ||
-			!nuevoUsuario.role ||
-			!nuevoUsuario.password
-		) {
+		if (!nuevoCliente.name || !nuevoCliente.email || !nuevoCliente.phone) {
 			alert("Por favor, completa todos los campos");
 			return;
 		}
 
 		// Validar formato de email (opcional)
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (!emailRegex.test(nuevoUsuario.email)) {
+		if (!emailRegex.test(nuevoCliente.email)) {
 			alert("Por favor, ingresa un email válido");
 			return;
 		}
-		const response = await fetch("http://localhost:8000/api/users/", {
+		const response = await fetch("http://localhost:8000/api/clients/", {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(nuevoUsuario),
+			body: JSON.stringify(nuevoCliente),
 		});
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
 		}
 		const datos = await response.json();
 
-		alert("Usuario creado correctamente");
+		alert("Cliente creado correctamente");
 
-		window.location.href = "./admin.html";
+		window.location.href = "../admin.html";
 	} catch (error) {
 		console.error("Error:", error);
 	}

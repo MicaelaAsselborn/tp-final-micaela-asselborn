@@ -1,0 +1,102 @@
+// CREAR USUARIO
+const token = localStorage.getItem("token");
+const form = document.querySelector("form");
+form.addEventListener("submit", function (e) {
+	e.preventDefault();
+	crearUsuario();
+});
+
+// Función para obtener los datos de los input
+function getInputData() {
+	const username = document.getElementById("username").value;
+	const email = document.getElementById("email").value;
+	const rol = document.getElementById("rol").value;
+	const password = document.getElementById("password").value;
+	return {
+		username: username.trim(),
+		email: email.trim(),
+		role: rol,
+		password: password.trim(),
+	};
+}
+
+async function crearUsuario() {
+	try {
+		// Obtiene los datos del formulario
+		const nuevoUsuario = getInputData();
+
+		// Valida que los campos no estén vacíos
+		if (
+			!nuevoUsuario.username ||
+			!nuevoUsuario.email ||
+			!nuevoUsuario.role ||
+			!nuevoUsuario.password
+		) {
+			alert("Por favor, completa todos los campos");
+			return;
+		}
+
+		// Validar formato de email (opcional)
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(nuevoUsuario.email)) {
+			alert("Por favor, ingresa un email válido");
+			return;
+		}
+		const response = await fetch("http://localhost:8000/api/users/", {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(nuevoUsuario),
+		});
+		if (!response.ok) {
+			throw new Error("Error al ingresar los datos");
+		}
+		const datos = await response.json();
+
+		alert("Usuario creado correctamente");
+
+		window.location.href = "../admin.html";
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
+
+// Mostrar nombre e id de usuario logueado
+function extraerUsername(token) {
+	if (!token) return null;
+
+	try {
+		const base64Url = token.split(".")[1];
+		const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+		const jsonPayload = decodeURIComponent(
+			window
+				.atob(base64)
+				.split("")
+				.map(function (c) {
+					return (
+						"%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
+					);
+				})
+				.join(""),
+		);
+
+		// Parsear el payload
+		const payload = JSON.parse(jsonPayload);
+
+		// Extraer username y id
+		return {
+			username: payload.username || null,
+		};
+	} catch (error) {
+		console.error("Error al decodificar token:", error);
+		return null;
+	}
+}
+
+// Obtener token y extraer datos
+const datosUsuario = extraerUsername(token);
+
+const nombre = document.getElementById("adminName");
+nombre.innerText = datosUsuario.username;

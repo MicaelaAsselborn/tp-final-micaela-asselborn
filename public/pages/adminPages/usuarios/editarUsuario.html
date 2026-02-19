@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../pages.css" />
+		<link rel="stylesheet" href="../../pages.css" />
 		<title>Veterinaria Patitas Felices</title>
 		<header><h1>Veterinaria Patitas Felices 🐾</h1></header>
 	</head>
@@ -11,25 +11,17 @@
 		<main>
 			<h2>Administrador: <span id="adminName"></span></h2>
 			<form action="submit" autocomplete="off">
-				<h2>Crear usuario</h2>
+				<h2 class="h2-editar">
+					Editar usuario con ID: <span id="userId"></span>
+				</h2>
 				<div class="input-holder">
 					<div class="inputBox">
-						<label for="username">Username: </label>
-						<input type="text" id="username" />
+						<label for="username">Usuername: </label>
+						<input type="text" id="username" autocomplete="off" />
 					</div>
 					<div class="inputBox">
 						<label for="email">Email: </label>
 						<input type="email" id="email" />
-					</div>
-					<div class="inputBox">
-						<label for="rol">Rol: </label>
-						<select id="rol">
-							<option disabled selected>
-								Selecciona una opción
-							</option>
-							<option value="admin">administrador</option>
-							<option value="vet">veterinario</option>
-						</select>
 					</div>
 					<div class="inputBox">
 						<label for="password">Contraseña: </label>
@@ -47,15 +39,15 @@
 					</li>
 				</ul>
 				<p id="error-message"></p>
-				<button>Crear usuario</button>
+				<button>Actualizar</button>
 			</form>
-			<button class="back"><a href="./admin.html">Volver</a></button>
+			<button class="back"><a href="../admin.html">Volver</a></button>
 		</main>
 		<footer>
 			<p>Trabajo práctico final de Desarrollo Web BackEnd - UTN</p>
 			<p>Micaela Asselborn</p>
 			<p>2026</p>
 		</footer>
-		<script src="crearUsuario.js"></script>
+		<script src="editarUsuario.js"></script>
 	</body>
 </html>

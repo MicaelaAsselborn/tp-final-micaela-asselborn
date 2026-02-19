@@ -20,7 +20,7 @@ if (parsedToken.role !== "admin") {
 	window.location.href = "../unauthorized.html";
 }
 
-function crearElementoLista(usuario) {
+function crearElementoListaUsuarios(usuario) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
 	divContenedor.className = "div-lista";
@@ -39,7 +39,7 @@ function crearElementoLista(usuario) {
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
 		const userId = this.getAttribute("userId");
-		window.location.href = `editarUsuario.html?id=${userId}`;
+		window.location.href = `./usuarios/editarUsuario.html?id=${userId}`;
 	});
 
 	// Crea boton eliminar
@@ -73,14 +73,147 @@ async function listarUsuarios() {
 			throw new Error("Error al obtener los datos");
 		}
 		const datos = await response.json();
-		console.log(datos);
 
 		datos.forEach((usuario) => {
-			const datosUsuario = crearElementoLista(usuario);
+			const datosUsuario = crearElementoListaUsuarios(usuario);
 			listBox.appendChild(datosUsuario);
 		});
 	} catch (error) {
 		console.error("Error:", error);
+	}
+}
+
+async function borrarUsuario(id) {
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar al usuario con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		if (id === datosUsuario.id) {
+			alert("❌ No puedes eliminarte a ti mismo");
+			return;
+		}
+
+		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ Usuario ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
+	}
+}
+
+function logOff() {
+	localStorage.removeItem("token");
+	window.location.href = "../../index.html";
+}
+
+// CLIENTES
+
+function crearElementoListaClientes(cliente) {
+	// Crea div contenedor
+	const divContenedor = document.createElement("div");
+	divContenedor.className = "div-lista";
+
+	// Crea párrafo
+	const datosCliente = document.createElement("p");
+	datosCliente.textContent = `ID: ${cliente.id} | NOMBRE: ${cliente.name} | EMAIL: ${cliente.email} | TELÉFONO: ${cliente.phone}`;
+
+	// Crea botonera
+	const botonera = document.createElement("div");
+
+	// Crea boton editar
+	const editButton = document.createElement("button");
+	editButton.className = "editButton";
+	editButton.setAttribute("clientId", cliente.id);
+	editButton.textContent = "Editar";
+	editButton.addEventListener("click", function () {
+		const clientId = this.getAttribute("clientId");
+		window.location.href = `./clients/editarCliente.html?id=${clientId}`;
+	});
+
+	// Crea boton eliminar
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "deleteButton";
+	deleteButton.textContent = "Borrar";
+	deleteButton.addEventListener("click", async () => {
+		borrarCliente(cliente.id);
+	});
+
+	// Ensambla la estructura
+	botonera.appendChild(editButton);
+	botonera.appendChild(deleteButton);
+	divContenedor.appendChild(datosCliente);
+	divContenedor.appendChild(botonera);
+
+	return divContenedor;
+}
+
+async function listarClientes() {
+	const listBox = document.getElementById("clients-list");
+	try {
+		const response = await fetch("http://localhost:8000/api/clients/", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+		const datos = await response.json();
+
+		datos.forEach((cliente) => {
+			const datosCliente = crearElementoListaClientes(cliente);
+			listBox.appendChild(datosCliente);
+		});
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
+
+async function borrarCliente(id) {
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar al cliente con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		const response = await fetch(
+			`http://localhost:8000/api/clients/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ Cliente ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
 	}
 }
 
@@ -123,44 +256,8 @@ const datosUsuario = extraerUsernameYId(token);
 const nombre = document.getElementById("adminName");
 nombre.innerText = datosUsuario.username;
 
-document.addEventListener("DOMContentLoaded", listarUsuarios());
-
-// BORRAR USUARIO
-async function borrarUsuario(id) {
-	// Confirmación con el nombre del usuario
-	const confirmacion = confirm(
-		`¿Estás seguro de que quieres eliminar al usuario con ID ${id}?\nEsta acción no se puede deshacer.`,
-	);
-
-	if (!confirmacion) return;
-
-	try {
-		if (id === datosUsuario.id) {
-			alert("❌ No puedes eliminarte a ti mismo");
-			return;
-		}
-
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
-			method: "DELETE",
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!response.ok) {
-			const error = await response.json().catch(() => ({}));
-			throw new Error(error.message || "Error al eliminar");
-		}
-
-		alert(`✅ Usuario ${id} eliminado correctamente`);
-		window.location.reload();
-	} catch (error) {
-		console.error("Error:", error);
-		alert(`❌ Error: ${error.message}`);
-	}
-}
-
-function logOff() {
-	localStorage.removeItem("token");
-	window.location.href = "../../index.html";
-}
+document.addEventListener(
+	"DOMContentLoaded",
+	listarUsuarios(),
+	listarClientes(),
+);
