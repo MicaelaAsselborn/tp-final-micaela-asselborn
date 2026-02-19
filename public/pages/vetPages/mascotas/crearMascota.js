@@ -7,16 +7,19 @@ form.addEventListener("submit", function (e) {
 });
 
 // Función para obtener los datos de los input
+
 function getInputData() {
 	const name = document.getElementById("name").value;
 	const specie = document.getElementById("specie").value;
 	const ownerId = document.getElementById("ownerId").value;
-	const vetId = document.getElementById("vetId").value;
+	// Extraer vetId del token
+	const datosUsuario = extraerUsernameYId(token);
+	const vetId = datosUsuario && datosUsuario.id ? datosUsuario.id : "";
 	return {
 		name: name.trim(),
-		specie: specie,
+		species: specie,
 		ownerId: ownerId.trim(),
-		vetId: vetId.trim(),
+		vetId: vetId,
 	};
 }
 
@@ -27,10 +30,9 @@ async function crearMascota() {
 
 		// Valida que los campos no estén vacíos
 		if (
-			!nuevMascota.name ||
-			!nuevaMascota.specie ||
-			!nuevaMascota.ownerId ||
-			!nuevaMascota.vetId
+			!nuevaMascota.name ||
+			!nuevaMascota.species ||
+			!nuevaMascota.ownerId
 		) {
 			alert("Por favor, completa todos los campos");
 			return;
@@ -49,7 +51,7 @@ async function crearMascota() {
 		}
 		const datos = await response.json();
 
-		alert("Usuario creado correctamente");
+		alert("Mascota creada correctamente");
 
 		window.location.href = "../vet.html";
 	} catch (error) {
@@ -58,7 +60,7 @@ async function crearMascota() {
 }
 
 // Mostrar nombre e id de usuario logueado
-function extraerUsername(token) {
+function extraerUsernameYId(token) {
 	if (!token) return null;
 
 	try {
@@ -82,6 +84,7 @@ function extraerUsername(token) {
 		// Extraer username y id
 		return {
 			username: payload.username || null,
+			id: payload.id || payload._id || null,
 		};
 	} catch (error) {
 		console.error("Error al decodificar token:", error);
@@ -90,7 +93,7 @@ function extraerUsername(token) {
 }
 
 // Obtener token y extraer datos
-const datosUsuario = extraerUsername(token);
+const datosUsuario = extraerUsernameYId(token);
 
 const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

@@ -27,7 +27,7 @@ function crearElementoListaMascotas(mascota) {
 
 	// Crea párrafo
 	const datosMascota = document.createElement("p");
-	datosMascota.textContent = `ID: ${mascota.id} | NOMBRE: ${mascota.name} | ESPECIE: ${mascota.species} | DUEÑO: ${mascota.ownerId}`;
+	datosMascota.textContent = `ID: ${mascota.id} | NOMBRE: ${mascota.name} | ESPECIE: ${mascota.species} | DUEÑO: ${mascota.ownerId} | VET: ${mascota.vetId}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
