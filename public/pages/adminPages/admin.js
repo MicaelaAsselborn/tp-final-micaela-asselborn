@@ -142,7 +142,7 @@ function crearElementoListaClientes(cliente) {
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
 		const clientId = this.getAttribute("clientId");
-		window.location.href = `./clients/editarCliente.html?id=${clientId}`;
+		window.location.href = `./clientes/editarCliente.html?id=${clientId}`;
 	});
 
 	// Crea boton eliminar

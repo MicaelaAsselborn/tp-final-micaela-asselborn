@@ -3,49 +3,52 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	actualizarUsuario();
+	actualizarCliente();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
 	const urlParams = new URLSearchParams(window.location.search);
-	const userId = urlParams.get("id");
+	const clientId = urlParams.get("id");
 
-	const userIdP = document.getElementById("userId");
-	userIdP.textContent = userId;
+	const clientIdP = document.getElementById("clientId");
+	clientIdP.textContent = clientId;
 });
 
 // Función para obtener los datos de los input
 function getInputData() {
-	const username = document.getElementById("username").value;
+	const name = document.getElementById("name").value;
 	const email = document.getElementById("email").value;
-	const password = document.getElementById("password").value;
+	const phone = document.getElementById("phone").value;
 	return {
-		username: username.trim(),
+		name: name.trim(),
 		email: email.trim(),
-		password: password.trim(),
+		phone: phone.trim(),
 	};
 }
 
-async function actualizarUsuario() {
+async function actualizarCliente() {
 	try {
 		// Obtiene el id de la URL
 		const urlParams = new URLSearchParams(window.location.search);
 		const id = urlParams.get("id");
 		if (!id) {
-			alert("No se encontró el ID de usuario en la URL");
+			alert("No se encontró el ID del cliente en la URL");
 			return;
 		}
 		// Obtiene los datos del formulario
 		const usuarioActualizado = getInputData();
 
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
+		const response = await fetch(
+			`http://localhost:8000/api/clients/${id}`,
+			{
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(usuarioActualizado),
 			},
-			body: JSON.stringify(usuarioActualizado),
-		});
+		);
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
 		}
