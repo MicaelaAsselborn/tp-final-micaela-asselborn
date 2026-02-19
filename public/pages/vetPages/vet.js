@@ -84,6 +84,136 @@ async function listarMascotas() {
 	}
 }
 
+async function borrarMascota(id) {
+	// Confirmación con el nombre de la mascota
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar la mascota con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ Mascota con ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
+	}
+}
+
+// CLIENTES
+
+function crearElementoListaClientes(cliente) {
+	// Crea div contenedor
+	const divContenedor = document.createElement("div");
+	divContenedor.className = "div-lista";
+
+	// Crea párrafo
+	const datosCliente = document.createElement("p");
+	datosCliente.textContent = `ID: ${cliente.id} | NOMBRE: ${cliente.name} | EMAIL: ${cliente.email} | TELÉFONO: ${cliente.phone}`;
+
+	// Crea botonera
+	const botonera = document.createElement("div");
+
+	// Crea boton editar
+	const editButton = document.createElement("button");
+	editButton.className = "editButton";
+	editButton.setAttribute("clientId", cliente.id);
+	editButton.textContent = "Editar";
+	editButton.addEventListener("click", function () {
+		const clientId = this.getAttribute("clientId");
+		window.location.href = `./clientes/editarCliente.html?id=${clientId}`;
+	});
+
+	// Crea boton eliminar
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "deleteButton";
+	deleteButton.textContent = "Borrar";
+	deleteButton.addEventListener("click", async () => {
+		borrarCliente(cliente.id);
+	});
+
+	// Ensambla la estructura
+	botonera.appendChild(editButton);
+	botonera.appendChild(deleteButton);
+	divContenedor.appendChild(datosCliente);
+	divContenedor.appendChild(botonera);
+
+	return divContenedor;
+}
+
+async function listarClientes() {
+	const listBox = document.getElementById("clients-list");
+	try {
+		const response = await fetch("http://localhost:8000/api/clients/", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+		const datos = await response.json();
+
+		datos.forEach((cliente) => {
+			const datosCliente = crearElementoListaClientes(cliente);
+			listBox.appendChild(datosCliente);
+		});
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
+
+async function borrarCliente(id) {
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar al cliente con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		const response = await fetch(
+			`http://localhost:8000/api/clients/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ Cliente ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
+	}
+}
+
+function logOff() {
+	localStorage.removeItem("token");
+	window.location.href = "../../index.html";
+}
+
 // Mostrar nombre e id de usuario logueado
 function extraerUsernameYId(token) {
 	if (!token) return null;
@@ -123,39 +253,8 @@ const datosUsuario = extraerUsernameYId(token);
 const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;
 
-document.addEventListener("DOMContentLoaded", listarMascotas());
-
-// BORRAR MASCOTA
-async function borrarMascota(id) {
-	// Confirmación con el nombre de la mascota
-	const confirmacion = confirm(
-		`¿Estás seguro de que quieres eliminar la mascota con ID ${id}?\nEsta acción no se puede deshacer.`,
-	);
-
-	if (!confirmacion) return;
-
-	try {
-		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
-			method: "DELETE",
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!response.ok) {
-			const error = await response.json().catch(() => ({}));
-			throw new Error(error.message || "Error al eliminar");
-		}
-
-		alert(`✅ Mascota con ${id} eliminado correctamente`);
-		window.location.reload();
-	} catch (error) {
-		console.error("Error:", error);
-		alert(`❌ Error: ${error.message}`);
-	}
-}
-
-function logOff() {
-	localStorage.removeItem("token");
-	window.location.href = "../../index.html";
-}
+document.addEventListener(
+	"DOMContentLoaded",
+	listarMascotas(),
+	listarClientes(),
+);

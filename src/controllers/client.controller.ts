@@ -14,6 +14,28 @@ export const findAllClients = async (req: Request, res: Response) => {
 	}
 };
 
+export const findClientByNameOrEmail = async (req: Request, res: Response) => {
+	try {
+		const { name = "", email = "" } = req.query;
+		// Asegurarse de que al menos uno esté presente
+		if (!name && !email) {
+			return res
+				.status(400)
+				.json({ error: "Debe proporcionar nombre o email" });
+		}
+		const client = await clientService.findClientByNameOrEmail(
+			String(name),
+			String(email),
+		);
+		if (!client) {
+			return res.status(404).json({ error: "Dueño no encontrado" });
+		}
+		return res.status(200).json(client);
+	} catch (error) {
+		return res.status(500).json({ error: "Error al buscar el dueño" });
+	}
+};
+
 export const findClientById = async (req: Request, res: Response) => {
 	const id = req.params.id as string;
 

@@ -4,6 +4,7 @@ import * as userController from "../controllers/user.controller";
 const router = Router();
 
 router.get("/", userController.findAllUsers);
+router.get("/search", userController.findUserByUsernameOrEmail);
 router.get("/:id", userController.findUserById);
 router.post("/", userController.createUser);
 router.patch("/:id", userController.updateUser);

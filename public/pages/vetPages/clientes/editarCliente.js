@@ -55,7 +55,7 @@ async function actualizarCliente() {
 		const datos = await response.json();
 
 		alert("Usuario actualizado correctamente");
-		window.location.href = "../admin.html";
+		window.location.href = "../vet.html";
 	} catch (error) {
 		console.error("Error:", error);
 	}
@@ -96,5 +96,5 @@ function extraerUsername(token) {
 // Obtener token y extraer datos
 const datosUsuario = extraerUsername(token);
 
-const nombre = document.getElementById("adminName");
+const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

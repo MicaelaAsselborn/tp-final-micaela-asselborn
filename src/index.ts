@@ -30,7 +30,7 @@ app.use("/api/auth", authRouter); // Registro y login
 
 // Rutas PROTEGIDAS
 app.use("/api/users", authenticate, authorize(["admin"]), userRouter); // CRUD de usuarios
-app.use("/api/clients", authenticate, authorize(["admin"]), clientRouter); // CRUD de clientes
+app.use("/api/clients", authenticate, authorize(["vet"]), clientRouter); // CRUD de clientes
 app.use("/api/pets", authenticate, authorize(["vet"]), petRouter); // CRUD de mascotas
 app.use("/api/clinic", authenticate, authorize(["vet"]), clinicRouter); // CRUD de consultas
 

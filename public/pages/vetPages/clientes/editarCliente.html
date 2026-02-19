@@ -9,9 +9,11 @@
 	</head>
 	<body>
 		<main>
-			<h2>Administrador: <span id="adminName"></span></h2>
+			<h2>Veterinario: <span id="vetName"></span></h2>
 			<form action="submit" autocomplete="off">
-				<h2>Crear cliente</h2>
+				<h2 class="h2-editar">
+					Editar cliente con ID: <span id="clientId"></span>
+				</h2>
 				<div class="input-holder">
 					<div class="inputBox">
 						<label for="name">Nombre: </label>
@@ -27,15 +29,15 @@
 					</div>
 				</div>
 				<p id="error-message"></p>
-				<button>Crear cliente</button>
+				<button>Actualizar</button>
 			</form>
-			<button class="back"><a href="../admin.html">Volver</a></button>
+			<button class="back"><a href="../vet.html">Volver</a></button>
 		</main>
 		<footer>
 			<p>Trabajo práctico final de Desarrollo Web BackEnd - UTN</p>
 			<p>Micaela Asselborn</p>
 			<p>2026</p>
 		</footer>
-		<script src="crearCliente.js"></script>
+		<script src="editarCliente.js"></script>
 	</body>
 </html>

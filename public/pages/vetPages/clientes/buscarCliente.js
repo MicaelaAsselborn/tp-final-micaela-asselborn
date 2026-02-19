@@ -1,18 +1,19 @@
 const form = document.querySelector("form");
+const token = localStorage.getItem("token");
 
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	listarUsuario();
+	listarCliente();
 });
 
-function crearElementoUsuario(usuario) {
+function crearElementoListaClientes(cliente) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
-	divContenedor.className = "div-lista-busqueda";
+	divContenedor.className = "div-lista";
 
 	// Crea párrafo
-	const datosUsuario = document.createElement("p");
-	datosUsuario.textContent = `ID: ${usuario.id} | USUARIO: ${usuario.username} | EMAIL: ${usuario.email} | ROL: ${usuario.role}`;
+	const datosCliente = document.createElement("p");
+	datosCliente.textContent = `ID: ${cliente.id} | NOMBRE: ${cliente.name} | EMAIL: ${cliente.email} | TELÉFONO: ${cliente.phone}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
@@ -21,11 +22,11 @@ function crearElementoUsuario(usuario) {
 	// Crea boton editar
 	const editButton = document.createElement("button");
 	editButton.className = "editButton";
-	editButton.setAttribute("userId", usuario.id);
+	editButton.setAttribute("clientId", cliente.id);
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
-		const userId = this.getAttribute("userId");
-		window.location.href = `editarUsuario.html?id=${userId}`;
+		const clientId = this.getAttribute("clientId");
+		window.location.href = `./clientes/editarCliente.html?id=${clientId}`;
 	});
 
 	// Crea boton eliminar
@@ -33,22 +34,24 @@ function crearElementoUsuario(usuario) {
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
 	deleteButton.addEventListener("click", async () => {
-		borrarUsuario(usuario.id);
+		borrarCliente(cliente.id);
 	});
 
 	// Ensambla la estructura
 	botonera.appendChild(editButton);
 	botonera.appendChild(deleteButton);
-	divContenedor.appendChild(datosUsuario);
+	divContenedor.appendChild(datosCliente);
 	divContenedor.appendChild(botonera);
 
 	return divContenedor;
 }
-const token = localStorage.getItem("token");
 
-async function listarUsuario() {
-	const listBox = document.getElementById("findings");
+async function listarCliente() {
+	const listBox = document.getElementById("results");
 	const input = document.getElementById("search").value.trim();
+
+	// Limpiar resultados previos
+	listBox.innerHTML = "";
 
 	// Validar que el input no esté vacío
 	if (!input) {
@@ -61,8 +64,8 @@ async function listarUsuario() {
 	try {
 		// Puedes cambiar a ?email= si buscas por email
 		const url = input.includes("@")
-			? `http://localhost:8000/api/users/search?email=${encodeURIComponent(input)}`
-			: `http://localhost:8000/api/users/search?username=${encodeURIComponent(input)}`;
+			? `http://localhost:8000/api/clients/search?email=${encodeURIComponent(input)}`
+			: `http://localhost:8000/api/clients/search?name=${encodeURIComponent(input)}`;
 
 		const response = await fetch(url, {
 			method: "GET",
@@ -73,47 +76,49 @@ async function listarUsuario() {
 		});
 
 		if (!response.ok) {
-			throw new Error("Error al obtener el usuario");
+			throw new Error("Error al obtener los datos");
 		}
 
-		const usuarioEncontrado = await response.json();
+		const clienteEncontrado = await response.json();
 
 		listBox.innerHTML = ""; // Limpiar
 
-		if (usuarioEncontrado) {
-			const datosUsuario = crearElementoUsuario(usuarioEncontrado);
-			listBox.appendChild(datosUsuario);
+		if (clienteEncontrado) {
+			const datosCliente = crearElementoListaClientes(clienteEncontrado);
+			listBox.appendChild(datosCliente);
 		} else {
-			listBox.innerHTML = `<p>No se encontró el usuario "${input}"</p>`;
+			listBox.innerHTML = "<p>No se encontró ningún cliente</p>";
 		}
 	} catch (error) {
-		listBox.innerHTML = `<p class="error">${error.message}</p>`;
-		console.error("Error detallado:", error);
+		console.error("Error:", error);
+		listBox.innerHTML = "<p>Error al buscar el cliente</p>";
 	}
 }
 
-async function borrarUsuario(id) {
-	// Confirmación con el nombre del usuario
+async function borrarCliente(id) {
 	const confirmacion = confirm(
-		`¿Estás seguro de que quieres eliminar al usuario con ID ${id}?\nEsta acción no se puede deshacer.`,
+		`¿Estás seguro de que quieres eliminar al cliente con ID ${id}?\nEsta acción no se puede deshacer.`,
 	);
 
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
-			method: "DELETE",
-			headers: {
-				Authorization: `Bearer ${token}`,
+		const response = await fetch(
+			`http://localhost:8000/api/clients/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			},
-		});
+		);
 
 		if (!response.ok) {
 			const error = await response.json().catch(() => ({}));
 			throw new Error(error.message || "Error al eliminar");
 		}
 
-		alert(`✅ Usuario ${id} eliminado correctamente`);
+		alert(`✅ Cliente ${id} eliminado correctamente`);
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);
@@ -121,7 +126,7 @@ async function borrarUsuario(id) {
 	}
 }
 
-// Mostrar nombre e id de usuario logueado
+// Mostrar nombre del usuario logueado
 function extraerUsername(token) {
 	if (!token) return null;
 
@@ -156,5 +161,5 @@ function extraerUsername(token) {
 // Obtener token y extraer datos
 const datosUsuario = extraerUsername(token);
 
-const nombre = document.getElementById("adminName");
+const nombre = document.getElementById("vetName");
 nombre.innerText = datosUsuario.username;

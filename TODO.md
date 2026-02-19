@@ -3,5 +3,3 @@
 - Pasar las funciones que se repiten a un js central e importarlas donde sea necesario
 - Agregar los datos de la entidad a editar en la pagina de edicion
 - combinar las paginas de home y busqueda, para que puedas buscar desde ahi
-- agregar CRUD de clientes en home de usuarios
-- agregar funcion dinamica al mensaje de error en creacion

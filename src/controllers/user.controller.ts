@@ -21,21 +21,25 @@ export const findAllUsers = async (_req: Request, res: Response) => {
 };
 
 // findUserByUsernameOrEmail
+
 export const findUserByUsernameOrEmail = async (
 	req: Request,
 	res: Response,
 ) => {
-	const username = req.params.username as string;
-	const email = req.params.email as string;
+	const { username = "", email = "" } = req.query;
+	if (!username && !email) {
+		return res
+			.status(400)
+			.json({ error: "Debe proporcionar username o email" });
+	}
 	try {
 		const user = await userService.findUserByUsernameOrEmail(
-			username,
-			email,
+			String(username),
+			String(email),
 		);
 		if (!user) {
 			return res.status(404).json({ error: "Usuario no encontrado" });
 		}
-
 		return res.status(200).json(user);
 	} catch (error) {
 		return res.status(500).json({ error: "Error al obtener al usuario" });
