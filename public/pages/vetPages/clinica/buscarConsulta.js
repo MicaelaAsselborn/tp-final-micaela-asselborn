@@ -2,17 +2,17 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", function (e) {
 	e.preventDefault();
-	listarMascota();
+	listarConsultas();
 });
 
-function crearElementoListaMascotas(mascota) {
+function crearElementoLista(consulta) {
 	// Crea div contenedor
 	const divContenedor = document.createElement("div");
 	divContenedor.className = "div-lista-busqueda";
 
 	// Crea párrafo
-	const datosMascota = document.createElement("p");
-	datosMascota.textContent = `ID: ${mascota.id} | NOMBRE: ${mascota.name} | ESPECIE: ${mascota.species} | DUEÑO: ${mascota.ownerId}`;
+	const datosClinicos = document.createElement("p");
+	datosClinicos.textContent = `ID: ${consulta.id} | ID MASCOTA: ${consulta.petId} | ID VET: ${consulta.vetId} | CONSULTA: ${consulta.consult} | TRATAMIENTO: ${consulta.treatment}`;
 
 	// Crea botonera
 	const botonera = document.createElement("div");
@@ -21,11 +21,11 @@ function crearElementoListaMascotas(mascota) {
 	// Crea boton editar
 	const editButton = document.createElement("button");
 	editButton.className = "editButton";
-	editButton.setAttribute("petId", mascota.id);
+	editButton.setAttribute("clinicId", consulta.id);
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
-		const petId = this.getAttribute("petId");
-		window.location.href = `./mascotas/editarMascota.html?id=${petId}`;
+		const clinicId = this.getAttribute("clinicId");
+		window.location.href = `./editarClinica.html?id=${clinicId}`;
 	});
 
 	// Crea boton eliminar
@@ -33,13 +33,13 @@ function crearElementoListaMascotas(mascota) {
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
 	deleteButton.addEventListener("click", async () => {
-		borrarMascota(mascota.id);
+		borrarClinicos(clinic.id);
 	});
 
 	// Ensambla la estructura
 	botonera.appendChild(editButton);
 	botonera.appendChild(deleteButton);
-	divContenedor.appendChild(datosMascota);
+	divContenedor.appendChild(datosClinicos);
 	divContenedor.appendChild(botonera);
 
 	return divContenedor;
@@ -47,12 +47,12 @@ function crearElementoListaMascotas(mascota) {
 
 const token = localStorage.getItem("token");
 
-async function listarMascota() {
+async function listarConsultas() {
 	const listBox = document.getElementById("findings");
 	const input = document.getElementById("search").value.trim();
 	try {
 		const response = await fetch(
-			`http://localhost:8000/api/pets/${input}`,
+			`http://localhost:8000/api/clinic/${input}`,
 			{
 				method: "GET",
 				headers: {
@@ -67,28 +67,28 @@ async function listarMascota() {
 		if (!response.ok) {
 			throw new Error("Error al obtener los datos");
 		}
-		const mascotaEncontrada = await response.json();
+		const consultaEncontrada = await response.json();
 
-		if (mascotaEncontrada) {
-			const datosMascota = crearElementoListaMascotas(mascotaEncontrada);
-			listBox.appendChild(datosMascota);
+		if (consultaEncontrada) {
+			const datosConsulta = crearElementoLista(consultaEncontrada);
+			listBox.appendChild(datosConsulta);
 		}
 	} catch (error) {
 		console.error("Error:", error);
 	}
 }
 
-// BORRAR MASCOTA
-async function borrarMascota(id) {
+// BORRAR CONSULTA
+async function borrarClinicos(id) {
 	// Confirmación con el nombre de la mascota
 	const confirmacion = confirm(
-		`¿Estás seguro de que quieres eliminar la mascota con ID ${id}?\nEsta acción no se puede deshacer.`,
+		`¿Estás seguro de que quieres eliminar la consulta con ID ${id}?\nEsta acción no se puede deshacer.`,
 	);
 
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
+		const response = await fetch(`http://localhost:8000/api/clinic/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ async function borrarMascota(id) {
 			throw new Error(error.message || "Error al eliminar");
 		}
 
-		alert(`✅ Mascota con ID:  ${id} eliminada correctamente`);
+		alert(`✅ Consulta con ID: ${id} eliminada correctamente`);
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);

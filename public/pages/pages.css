@@ -87,7 +87,10 @@ fieldset {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	width: 1000px;
+	width: 100%;
+}
+.div-lista-busqueda p {
+	text-align: justify;
 }
 
 .div-lista:not(:last-child) {
@@ -187,6 +190,7 @@ form button {
 	display: flex;
 	justify-content: space-between;
 	width: fit-content;
+	margin-left: 1rem;
 }
 
 .botonera button {

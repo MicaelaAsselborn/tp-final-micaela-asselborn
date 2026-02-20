@@ -144,7 +144,7 @@ function crearElementoListaClinica(consulta) {
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
 	deleteButton.addEventListener("click", async () => {
-		borrarCliente(clinic.id);
+		borrarClinicos(clinic.id);
 	});
 
 	// Ensambla la estructura

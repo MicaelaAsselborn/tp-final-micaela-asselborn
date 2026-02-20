@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../../pages.css" />
+		<title>Veterinaria Patitas Felices</title>
+		<header><h1>Veterinaria Patitas Felices 🐾</h1></header>
+	</head>
+	<body>
+		<main>
+			<h2>Veterinario: <span id="vetName"></span></h2>
+			<form action="submit">
+				<h2>Buscar consulta</h2>
+				<h3>Podes buscar una consulta por su ID</h3>
+				<input type="text" class="search" id="search" />
+				<div id="findings"></div>
+				<span id="error-message"></span>
+				<button>Buscar</button>
+			</form>
+			<button class="back"><a href="../vet.html">Volver</a></button>
+		</main>
+		<footer>
+			<p>Trabajo práctico final de Desarrollo Web BackEnd - UTN</p>
+			<p>Micaela Asselborn</p>
+			<p>2026</p>
+		</footer>
+		<script src="buscarConsulta.js"></script>
+	</body>
+</html>
