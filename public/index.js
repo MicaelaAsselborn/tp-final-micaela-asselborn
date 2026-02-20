@@ -10,8 +10,9 @@ function getLoginCredentials() {
 }
 
 const url =
-	"http://localhost:8000/api/" ||
-	"https://veterinariapatitasfelicesmonolito.vercel.app/";
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/api/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
 // Evento del botón de ingreso
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	loginButton.addEventListener("click", async () => {
 		const credentials = getLoginCredentials();
 
-		const response = await fetch(`${url}api/auth/login`, {
+		const response = await fetch(`${url}auth/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

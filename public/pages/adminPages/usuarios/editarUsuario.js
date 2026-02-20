@@ -38,7 +38,12 @@ async function actualizarUsuario() {
 		// Obtiene los datos del formulario
 		const usuarioActualizado = getInputData();
 
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		const url =
+			window.location.hostname === "localhost"
+				? "http://localhost:8000/api/"
+				: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
+		const response = await fetch(`${url}users/${id}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,

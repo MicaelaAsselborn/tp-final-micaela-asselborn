@@ -60,10 +60,15 @@ function crearElementoListaUsuarios(usuario) {
 	return divContenedor;
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/api/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function listarUsuarios() {
 	const listBox = document.getElementById("users-list");
 	try {
-		const response = await fetch("http://localhost:8000/api/users/", {
+		const response = await fetch(`${url}users/`, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,

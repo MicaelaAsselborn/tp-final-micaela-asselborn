@@ -42,7 +42,13 @@ async function crearUsuario() {
 			alert("Por favor, ingresa un email válido");
 			return;
 		}
-		const response = await fetch("http://localhost:8000/api/users/", {
+
+		const url =
+			window.location.hostname === "localhost"
+				? "http://localhost:8000/api/"
+				: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
+		const response = await fetch(`${url}users/`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,
