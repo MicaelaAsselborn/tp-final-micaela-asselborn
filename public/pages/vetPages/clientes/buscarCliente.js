@@ -46,6 +46,11 @@ function crearElementoListaClientes(cliente) {
 	return divContenedor;
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function listarCliente() {
 	const listBox = document.getElementById("results");
 	const input = document.getElementById("search").value.trim();
@@ -63,11 +68,11 @@ async function listarCliente() {
 
 	try {
 		// Puedes cambiar a ?email= si buscas por email
-		const url = input.includes("@")
-			? `http://localhost:8000/api/clients/search?email=${encodeURIComponent(input)}`
-			: `http://localhost:8000/api/clients/search?name=${encodeURIComponent(input)}`;
+		const link = input.includes("@")
+			? `${url}api/clients/search?email=${encodeURIComponent(input)}`
+			: `${url}api/clients/search?name=${encodeURIComponent(input)}`;
 
-		const response = await fetch(url, {
+		const response = await fetch(link, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -103,15 +108,12 @@ async function borrarCliente(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(
-			`http://localhost:8000/api/clients/${id}`,
-			{
-				method: "DELETE",
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+		const response = await fetch(`${url}api/clients/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
 			},
-		);
+		});
 
 		if (!response.ok) {
 			const error = await response.json().catch(() => ({}));

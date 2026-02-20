@@ -23,6 +23,11 @@ function getInputData() {
 	};
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function crearMascota() {
 	try {
 		// Obtiene los datos del formulario
@@ -38,7 +43,7 @@ async function crearMascota() {
 			return;
 		}
 
-		const response = await fetch("http://localhost:8000/api/pets/", {
+		const response = await fetch(`${url}api/pets/`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,

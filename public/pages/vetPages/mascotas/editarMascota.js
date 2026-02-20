@@ -30,6 +30,11 @@ function getInputData() {
 	};
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function actualizarMascota() {
 	try {
 		// Obtiene el id de la URL
@@ -42,7 +47,7 @@ async function actualizarMascota() {
 		// Obtiene los datos del formulario
 		const masctotaActualizada = getInputData();
 
-		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
+		const response = await fetch(`${url}api/pets/${id}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,

@@ -60,10 +60,15 @@ function crearElementoListaMascotas(mascota) {
 	return divContenedor;
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function listarMascotas() {
 	const listBox = document.getElementById("pets-list");
 	try {
-		const response = await fetch("http://localhost:8000/api/pets/", {
+		const response = await fetch(`${url}api/pets/`, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -94,7 +99,7 @@ async function borrarMascota(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/pets/${id}`, {
+		const response = await fetch(`${url}api/pets/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -159,7 +164,7 @@ function crearElementoListaClinica(consulta) {
 async function listarConsultas() {
 	const listBox = document.getElementById("clinic-list");
 	try {
-		const response = await fetch("http://localhost:8000/api/clinic/", {
+		const response = await fetch(`${url}api/clinic/`, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -188,7 +193,7 @@ async function borrarClinicos(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/clinic/${id}`, {
+		const response = await fetch(`${url}api/clinic/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -252,7 +257,7 @@ function crearElementoListaClientes(cliente) {
 async function listarClientes() {
 	const listBox = document.getElementById("clients-list");
 	try {
-		const response = await fetch("http://localhost:8000/api/clients/", {
+		const response = await fetch(`${url}api/clients/`, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -281,15 +286,12 @@ async function borrarCliente(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(
-			`http://localhost:8000/api/clients/${id}`,
-			{
-				method: "DELETE",
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+		const response = await fetch(`${url}api/clients/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
 			},
-		);
+		});
 
 		if (!response.ok) {
 			const error = await response.json().catch(() => ({}));

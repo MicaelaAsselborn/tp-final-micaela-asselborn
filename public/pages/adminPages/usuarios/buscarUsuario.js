@@ -45,6 +45,10 @@ function crearElementoUsuario(usuario) {
 	return divContenedor;
 }
 const token = localStorage.getItem("token");
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
 async function listarUsuario() {
 	const listBox = document.getElementById("findings");
@@ -57,11 +61,6 @@ async function listarUsuario() {
 	}
 
 	listBox.innerHTML = "<p>Cargando...</p>"; // Indicador de carga
-
-	const url =
-		window.location.hostname === "localhost"
-			? "http://localhost:8000/"
-			: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
 	try {
 		// Puedes cambiar a ?email= si buscas por email
@@ -106,7 +105,7 @@ async function borrarUsuario(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		const response = await fetch(`${url}api/users/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,

@@ -46,21 +46,22 @@ function crearElementoLista(consulta) {
 }
 
 const token = localStorage.getItem("token");
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
 async function listarConsultas() {
 	const listBox = document.getElementById("findings");
 	const input = document.getElementById("search").value.trim();
 	try {
-		const response = await fetch(
-			`http://localhost:8000/api/clinic/${input}`,
-			{
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/json",
-				},
+		const response = await fetch(`${url}api/clinic/${input}`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
 			},
-		);
+		});
 
 		listBox.innerHTML = ""; // Limpiar
 
@@ -88,7 +89,7 @@ async function borrarClinicos(id) {
 	if (!confirmacion) return;
 
 	try {
-		const response = await fetch(`http://localhost:8000/api/clinic/${id}`, {
+		const response = await fetch(`${url}api/clinic/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,

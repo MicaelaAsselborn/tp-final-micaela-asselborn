@@ -18,6 +18,11 @@ function getInputData() {
 	};
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function crearCliente() {
 	try {
 		// Obtiene los datos del formulario
@@ -35,7 +40,7 @@ async function crearCliente() {
 			alert("Por favor, ingresa un email válido");
 			return;
 		}
-		const response = await fetch("http://localhost:8000/api/clients/", {
+		const response = await fetch(`${url}api/clients/`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,

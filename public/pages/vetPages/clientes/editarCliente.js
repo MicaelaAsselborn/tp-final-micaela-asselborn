@@ -26,6 +26,11 @@ function getInputData() {
 	};
 }
 
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 async function actualizarCliente() {
 	try {
 		// Obtiene el id de la URL
@@ -38,17 +43,14 @@ async function actualizarCliente() {
 		// Obtiene los datos del formulario
 		const usuarioActualizado = getInputData();
 
-		const response = await fetch(
-			`http://localhost:8000/api/clients/${id}`,
-			{
-				method: "PATCH",
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(usuarioActualizado),
+		const response = await fetch(`${url}api/clients/${id}`, {
+			method: "PATCH",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
 			},
-		);
+			body: JSON.stringify(usuarioActualizado),
+		});
 		if (!response.ok) {
 			throw new Error("Error al ingresar los datos");
 		}

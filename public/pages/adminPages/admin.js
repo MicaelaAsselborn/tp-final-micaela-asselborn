@@ -102,7 +102,7 @@ async function borrarUsuario(id) {
 			return;
 		}
 
-		const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+		const response = await fetch(`${url}api/users/${id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
