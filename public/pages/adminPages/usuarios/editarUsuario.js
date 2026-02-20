@@ -40,10 +40,10 @@ async function actualizarUsuario() {
 
 		const url =
 			window.location.hostname === "localhost"
-				? "http://localhost:8000/api/"
+				? "http://localhost:8000/"
 				: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
-		const response = await fetch(`${url}users/${id}`, {
+		const response = await fetch(`${url}api/users/${id}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,

@@ -60,14 +60,14 @@ async function listarUsuario() {
 
 	const url =
 		window.location.hostname === "localhost"
-			? "http://localhost:8000/api/"
+			? "http://localhost:8000/"
 			: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
 	try {
 		// Puedes cambiar a ?email= si buscas por email
 		const link = input.includes("@")
-			? `${url}users/search?email=${encodeURIComponent(input)}`
-			: `${url}users/search?username=${encodeURIComponent(input)}`;
+			? `${url}api/users/search?email=${encodeURIComponent(input)}`
+			: `${url}api/users/search?username=${encodeURIComponent(input)}`;
 
 		const response = await fetch(link, {
 			method: "GET",

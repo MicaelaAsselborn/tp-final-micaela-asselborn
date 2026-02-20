@@ -45,10 +45,10 @@ async function crearUsuario() {
 
 		const url =
 			window.location.hostname === "localhost"
-				? "http://localhost:8000/api/"
+				? "http://localhost:8000/"
 				: "https://veterinariapatitasfelicesmonolito.vercel.app/";
 
-		const response = await fetch(`${url}users/`, {
+		const response = await fetch(`${url}api/users/`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,
