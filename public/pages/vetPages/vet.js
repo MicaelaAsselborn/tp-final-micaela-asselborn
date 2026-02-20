@@ -31,6 +31,7 @@ function crearElementoListaMascotas(mascota) {
 
 	// Crea botonera
 	const botonera = document.createElement("div");
+	botonera.className = "botonera";
 
 	// Crea boton editar
 	const editButton = document.createElement("button");
@@ -106,6 +107,100 @@ async function borrarMascota(id) {
 		}
 
 		alert(`✅ Mascota con ${id} eliminado correctamente`);
+		window.location.reload();
+	} catch (error) {
+		console.error("Error:", error);
+		alert(`❌ Error: ${error.message}`);
+	}
+}
+
+// CLINICA
+
+function crearElementoListaClinica(consulta) {
+	// Crea div contenedor
+	const divContenedor = document.createElement("div");
+	divContenedor.className = "div-lista";
+
+	// Crea párrafo
+	const datosClinicos = document.createElement("p");
+	datosClinicos.textContent = `ID: ${consulta.id} | ID MASCOTA: ${consulta.petId} | ID VET: ${consulta.vetId} | CONSULTA: ${consulta.consult} | TRATAMIENTO: ${consulta.treatment}`;
+
+	// Crea botonera
+	const botonera = document.createElement("div");
+	botonera.className = "botonera";
+
+	// Crea boton editar
+	const editButton = document.createElement("button");
+	editButton.className = "editButton";
+	editButton.setAttribute("clinicId", consulta.id);
+	editButton.textContent = "Editar";
+	editButton.addEventListener("click", function () {
+		const clinicId = this.getAttribute("clinicId");
+		window.location.href = `./clinica/editarClinica.html?id=${clinicId}`;
+	});
+
+	// Crea boton eliminar
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "deleteButton";
+	deleteButton.textContent = "Borrar";
+	deleteButton.addEventListener("click", async () => {
+		borrarCliente(clinic.id);
+	});
+
+	// Ensambla la estructura
+	botonera.appendChild(editButton);
+	botonera.appendChild(deleteButton);
+	divContenedor.appendChild(datosClinicos);
+	divContenedor.appendChild(botonera);
+
+	return divContenedor;
+}
+
+async function listarConsultas() {
+	const listBox = document.getElementById("clinic-list");
+	try {
+		const response = await fetch("http://localhost:8000/api/clinic/", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+		const datos = await response.json();
+
+		datos.forEach((clinic) => {
+			const datosClinicos = crearElementoListaClinica(clinic);
+			listBox.appendChild(datosClinicos);
+		});
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
+
+async function borrarClinicos(id) {
+	const confirmacion = confirm(
+		`¿Estás seguro de que quieres eliminar la consulta con ID ${id}?\nEsta acción no se puede deshacer.`,
+	);
+
+	if (!confirmacion) return;
+
+	try {
+		const response = await fetch(`http://localhost:8000/api/clinic/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({}));
+			throw new Error(error.message || "Error al eliminar");
+		}
+
+		alert(`✅ La consulta con ID: ${id} se eliminó correctamente`);
 		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);
@@ -257,4 +352,5 @@ document.addEventListener(
 	"DOMContentLoaded",
 	listarMascotas(),
 	listarClientes(),
+	listarConsultas(),
 );

@@ -11,7 +11,7 @@
 		<main class="main">
 			<h2>Veterinario: <span id="vetName"></span></h2>
 			<h3 id="vetId"></h3>
-			<fieldset id="pets-list">
+			<fieldset>
 				<legend>Macotas</legend>
 				<div class="botonera">
 					<button>
@@ -23,15 +23,23 @@
 						>
 					</button>
 				</div>
-				<div class="list"></div>
+				<div class="list" id="pets-list"></div>
 			</fieldset>
 			<fieldset id="clinic-box">
 				<legend>Consultas clinicas</legend>
 				<div class="botonera">
-					<button>Crear consulta</button>
-					<button>Buscar consulta</button>
+					<button>
+						<a href="./clinica/crearConsulta.html"
+							>Crear consulta</a
+						>
+					</button>
+					<button>
+						<a href="./clinica/buscarConsulta.html"
+							>Buscar mascota</a
+						>
+					</button>
 				</div>
-				<div class="list"></div>
+				<div class="list" id="clinic-list"></div>
 			</fieldset>
 			<fieldset id="clients-box">
 				<legend>Clientes</legend>

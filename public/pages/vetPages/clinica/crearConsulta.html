@@ -14,31 +14,20 @@
 				<h2>Crear mascota</h2>
 				<div class="input-holder">
 					<div class="inputBox">
-						<label for="name">Nombre: </label>
-						<input type="text" id="name" />
+						<label for="petId">ID Mascota: </label>
+						<input type="text" id="petId" />
 					</div>
 					<div class="inputBox">
-						<label for="specie">Especie: </label>
-						<select id="specie">
-							<option disabled selected>Elige una opción</option>
-							<option value="perro">perro</option>
-							<option value="gato">gato</option>
-							<option value="hamster">hamster</option>
-							<option value="ratón">ratón</option>
-							<option value="conejo">conejo</option>
-							<option value="ave">ave</option>
-							<option value="lagarto">lagarto</option>
-							<option value="tortuga">tortuga</option>
-							<option value="otro">otro</option>
-						</select>
+						<label for="consult">Consulta: </label>
+						<input type="textarea" id="consult" />
 					</div>
 					<div class="inputBox">
-						<label for="ownerId">ID dueño: </label>
-						<input type="text" id="ownerId" />
+						<label for="treatment">Tratamiento: </label>
+						<input type="textarea" id="treatment" />
 					</div>
 				</div>
 				<p id="error-message"></p>
-				<button>Crear mascota</button>
+				<button>Crear consulta</button>
 			</form>
 			<button class="back"><a href="../vet.html">Volver</a></button>
 		</main>
@@ -47,6 +36,6 @@
 			<p>Micaela Asselborn</p>
 			<p>2026</p>
 		</footer>
-		<script src="crearMascota.js"></script>
+		<script src="crearConsulta.js"></script>
 	</body>
 </html>

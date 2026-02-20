@@ -31,6 +31,7 @@ function crearElementoListaUsuarios(usuario) {
 
 	// Crea botonera
 	const botonera = document.createElement("div");
+	botonera.className = "botonera";
 
 	// Crea boton editar
 	const editButton = document.createElement("button");
