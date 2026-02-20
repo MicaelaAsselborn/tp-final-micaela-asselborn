@@ -9,6 +9,10 @@ function getLoginCredentials() {
 	};
 }
 
+const url =
+	"http://localhost:8000/api/" ||
+	"https://veterinariapatitasfelicesmonolito.vercel.app/";
+
 // Evento del botón de ingreso
 document.addEventListener("DOMContentLoaded", () => {
 	const loginButton = document.querySelector("button");
@@ -17,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	loginButton.addEventListener("click", async () => {
 		const credentials = getLoginCredentials();
 
-		const response = await fetch("http://localhost:8000/api/auth/login", {
+		const response = await fetch(`${url}api/auth/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
