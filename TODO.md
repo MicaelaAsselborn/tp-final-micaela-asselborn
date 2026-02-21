@@ -1,4 +1,3 @@
 - Decidir si añadir o no registro
 - Pasar las funciones que se repiten a un js central e importarlas donde sea necesario
 - Agregar los datos de la entidad a editar en la pagina de edicion
-- combinar las paginas de home y busqueda, para que puedas buscar desde ahi

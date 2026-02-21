@@ -11,9 +11,16 @@
 		<main>
 			<h2>Veterinario: <span id="vetName"></span></h2>
 			<form action="submit" autocomplete="off">
-				<h2 class="h2-editar">
-					Editar consulta con ID: <span id="clinicId"></span>
-				</h2>
+				<h2>Editar consulta</h2>
+				<div class="container">
+					<h3>ID: <span id="idConsulta"></span></h3>
+					<h3>
+						ID Mascota:
+						<a onclick="goToUrl()"><span id="idMascota"></span></a>
+					</h3>
+					<h3>Consulta: <span id="consulta"></span></h3>
+					<h3>Tratamiento: <span id="tratamiento"></span></h3>
+				</div>
 				<div class="input-holder">
 					<div class="inputBox">
 						<label for="petId">ID Mascota: </label>

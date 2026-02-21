@@ -1,4 +1,3 @@
-// EDITAR USUARIO
 const token = localStorage.getItem("token");
 const form = document.querySelector("form");
 
@@ -7,12 +6,53 @@ form.addEventListener("submit", function (e) {
 	actualizarConsulta();
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+let urlId = null; // Variable global
+
+document.addEventListener("DOMContentLoaded", async function () {
 	const urlParams = new URLSearchParams(window.location.search);
-	const clinicId = urlParams.get("id");
-	const clinicIdP = document.getElementById("clinicId");
-	clinicIdP.textContent = clinicId;
+	urlId = urlParams.get("id"); // Asignar a variable global
+
+	if (urlId) {
+		await getIdData(urlId);
+	}
 });
+console.log(urlId);
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
+async function getIdData(id) {
+	try {
+		const response = await fetch(`${url}api/clinic/${id}`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+
+		const datos = await response.json();
+
+		const idConsulta = document.getElementById("idConsulta");
+		idConsulta.textContent = datos.id;
+
+		const idMascota = document.getElementById("idMascota");
+		idMascota.textContent = datos.petId;
+
+		const consulta = document.getElementById("consulta");
+		consulta.textContent = datos.consult;
+
+		const tratamiento = document.getElementById("tratamiento");
+		tratamiento.textContent = datos.treatment;
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
 
 // Función para obtener los datos de los input
 function getInputData() {
@@ -26,24 +66,16 @@ function getInputData() {
 	};
 }
 
-const url =
-	window.location.hostname === "localhost"
-		? "http://localhost:8000/"
-		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
-
 async function actualizarConsulta() {
 	try {
-		// Obtiene el id de la URL
-		const urlParams = new URLSearchParams(window.location.search);
-		const id = urlParams.get("id");
-		if (!id) {
+		if (!urlId) {
 			alert("No se encontró el ID de la consulta en la URL");
 			return;
 		}
 		// Obtiene los datos del formulario
 		const consultaActualizada = getInputData();
 
-		const response = await fetch(`${url}api/clinic/${id}`, {
+		const response = await fetch(`${url}api/clinic/${urlId}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -85,7 +117,7 @@ function extraerUsername(token) {
 		// Parsear el payload
 		const payload = JSON.parse(jsonPayload);
 
-		// Extraer username y id
+		// Extraer username
 		return {
 			username: payload.username || null,
 		};

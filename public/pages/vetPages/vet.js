@@ -140,7 +140,7 @@ function crearElementoListaClinica(consulta) {
 	editButton.textContent = "Editar";
 	editButton.addEventListener("click", function () {
 		const clinicId = this.getAttribute("clinicId");
-		window.location.href = `./clinica/editarClinica.html?id=${clinicId}`;
+		window.location.href = `./clinica/editarConsulta.html?id=${clinicId}`;
 	});
 
 	// Crea boton eliminar
@@ -148,7 +148,7 @@ function crearElementoListaClinica(consulta) {
 	deleteButton.className = "deleteButton";
 	deleteButton.textContent = "Borrar";
 	deleteButton.addEventListener("click", async () => {
-		borrarClinicos(clinic.id);
+		borrarClinicos(consulta.id);
 	});
 
 	// Ensambla la estructura
