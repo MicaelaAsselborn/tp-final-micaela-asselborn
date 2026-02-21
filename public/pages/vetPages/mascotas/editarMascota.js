@@ -1,4 +1,3 @@
-// EDITAR USUARIO
 const token = localStorage.getItem("token");
 const form = document.querySelector("form");
 
@@ -22,12 +21,21 @@ function getInputData() {
 	const specie = document.getElementById("specie").value;
 	const ownerId = document.getElementById("ownerId").value;
 	const vetId = document.getElementById("vetId").value;
-	return {
-		name: name.trim(),
-		species: specie,
-		ownerId: ownerId.trim(),
-		vetId: vetId.trim(),
-	};
+
+	if (specie === "Elige una opción") {
+		return {
+			name: name.trim(),
+			ownerId: ownerId.trim(),
+			vetId: vetId.trim(),
+		};
+	} else {
+		return {
+			name: name.trim(),
+			species: specie,
+			ownerId: ownerId.trim(),
+			vetId: vetId.trim(),
+		};
+	}
 }
 
 const url =
@@ -61,7 +69,7 @@ async function actualizarMascota() {
 		const datos = await response.json();
 
 		alert("Mascota actualizada correctamente");
-		window.location.reload();
+		window.location.href = "../vet.html";
 	} catch (error) {
 		console.error("Error:", error);
 	}

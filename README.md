@@ -6,6 +6,10 @@ Trabajo Práctico Final del curso de Desarrollo Web Back-End UTN
 
 API RESTful para la gestión de una clínica veterinaria. Permite administrar usuarios (admin/vet), clientes, mascotas y consultas clínicas. Incluye autenticación JWT y control de acceso por roles.
 
+## Despliegue
+
+El proyecto está desplegado en Vercel: [Veterinaria Patitas Felices](https://veterinariapatitasfelices-git-a3bda1-micaelaasselborns-projects.vercel.app/)
+
 ## Estructura de carpetas
 
 ```
