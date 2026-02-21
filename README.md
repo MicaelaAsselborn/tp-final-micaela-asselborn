@@ -25,7 +25,8 @@ El proyecto está desplegado en Vercel: [Veterinaria Patitas Felices](https://ve
 │   └── index.ts        # Punto de entrada principal
 ├── public/             # Frontend mínimo (HTML, CSS, JS)
 ├── curls/              # Ejemplos de pruebas con curl
-├── .env                # Variables de entorno (no subir)
+├── .env                # Variables de entorno (no subido)
+├── .env.example        # Variables simuladas de entorno
 ├── package.json        # Dependencias y scripts
 └── README.md           # Documentación
 ```

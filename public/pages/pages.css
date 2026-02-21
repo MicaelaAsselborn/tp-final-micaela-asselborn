@@ -209,3 +209,19 @@ img {
 	padding: 1rem;
 	font-size: 1rem;
 }
+
+/* EDITAR */
+
+.container {
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	h3 {
+		text-align: justify;
+		margin: 5px;
+	}
+	span {
+		color: rgb(236, 67, 67);
+	}
+}

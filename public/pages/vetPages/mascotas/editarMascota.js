@@ -6,14 +6,56 @@ form.addEventListener("submit", function (e) {
 	actualizarMascota();
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-	const urlParams = new URLSearchParams(window.location.search);
-	const userId = urlParams.get("id");
-	console.log(userId);
+let urlId = null; // Variable global
 
-	const userIdP = document.getElementById("userId");
-	userIdP.textContent = userId;
+document.addEventListener("DOMContentLoaded", async function () {
+	const urlParams = new URLSearchParams(window.location.search);
+	urlId = urlParams.get("id"); // Asignar a variable global
+
+	if (urlId) {
+		await getIdData(urlId);
+	}
 });
+
+const url =
+	window.location.hostname === "localhost"
+		? "http://localhost:8000/"
+		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
+
+async function getIdData(id) {
+	try {
+		const response = await fetch(`${url}api/pets/${id}`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error("Error al obtener los datos");
+		}
+
+		const datosMascota = await response.json();
+
+		const idMascota = document.getElementById("idMascota");
+		idMascota.textContent = datosMascota.id;
+
+		const nombre = document.getElementById("nombre");
+		nombre.textContent = datosMascota.name;
+
+		const especie = document.getElementById("especie");
+		especie.textContent = datosMascota.species;
+
+		const idDuenio = document.getElementById("idDuenio");
+		idDuenio.textContent = datosMascota.ownerId;
+
+		const idVet = document.getElementById("idVet");
+		idVet.textContent = datosMascota.vetId;
+	} catch (error) {
+		console.error("Error:", error);
+	}
+}
 
 // Función para obtener los datos de los input
 function getInputData() {
@@ -38,24 +80,17 @@ function getInputData() {
 	}
 }
 
-const url =
-	window.location.hostname === "localhost"
-		? "http://localhost:8000/"
-		: "https://veterinariapatitasfelicesmonolito.vercel.app/";
-
 async function actualizarMascota() {
+	if (!urlId) {
+		alert("No se encontró el ID de la mascota en la URL");
+		return;
+	}
+
 	try {
-		// Obtiene el id de la URL
-		const urlParams = new URLSearchParams(window.location.search);
-		const id = urlParams.get("id");
-		if (!id) {
-			alert("No se encontró el ID de la mascota en la URL");
-			return;
-		}
 		// Obtiene los datos del formulario
 		const masctotaActualizada = getInputData();
 
-		const response = await fetch(`${url}api/pets/${id}`, {
+		const response = await fetch(`${url}api/pets/${urlId}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -69,7 +104,7 @@ async function actualizarMascota() {
 		const datos = await response.json();
 
 		alert("Mascota actualizada correctamente");
-		window.location.href = "../vet.html";
+		window.location.reload();
 	} catch (error) {
 		console.error("Error:", error);
 	}

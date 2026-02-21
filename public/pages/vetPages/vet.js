@@ -79,7 +79,6 @@ async function listarMascotas() {
 			throw new Error("Error al obtener los datos");
 		}
 		const datos = await response.json();
-		console.log(datos);
 
 		datos.forEach((mascota) => {
 			const datosMascota = crearElementoListaMascotas(mascota);
